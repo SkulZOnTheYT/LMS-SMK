@@ -7,7 +7,7 @@ import { Bell, ChevronDown, MenuIcon, Search } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import Image from "next/image"
 import type { UserRole } from "@/prisma/app/generated/prisma/client"
 
 interface NavbarProps {
@@ -40,8 +40,8 @@ export default function Navbar({ toggleSidebar }: NavbarProps) {
             {/* Logo */}
             <div className="ml-4 md:ml-0">
               <Link href="/" className="flex items-center">
-                <span className="text-primary font-bold text-xl">TKJ</span>
-                <span className="text-muted-foreground font-bold text-xl">LMS</span>
+                <span className="text-primary font-bold text-xl">LMS</span>
+                <span className="text-muted-foreground font-bold text-xl ml-2">SMKN 1 RU</span>
               </Link>
             </div>
           </div>
@@ -68,9 +68,7 @@ export default function Navbar({ toggleSidebar }: NavbarProps) {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="ml-2 flex items-center gap-2 p-1 px-2 h-auto">
-                    <Avatar className="h-8 w-8">
-                      <AvatarFallback className="bg-primary/20 text-primary">{userName.charAt(0)}</AvatarFallback>
-                    </Avatar>
+                    <Image src={session.user?.image || "/default-avatar.png"} alt="User Avatar" width={25} height={25} className="bg-primary/20 text-primary rounded-full" />
                     <div className="ml-1 hidden md:flex flex-col items-start">
                       <span className="text-sm font-medium">{userName}</span>
                       <span className="text-xs text-muted-foreground">{userRole}</span>
@@ -101,7 +99,7 @@ export default function Navbar({ toggleSidebar }: NavbarProps) {
       <div className="px-4 py-2 md:hidden">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input className="pl-10" placeholder="Cari..." />
+          <Input className="pl-10" placeholder="Cari materi, tugas, dan lainnya..." />
         </div>
       </div>
     </nav>
