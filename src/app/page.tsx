@@ -1,103 +1,209 @@
-import Image from "next/image";
+import { Suspense } from "react"
+import { auth } from "@/app/auth"
+import { redirect } from "next/navigation"
+import { prisma } from "@/app/prisma"
 
-export default function Home() {
+import DashboardClient from "@/components/dashboardClient"
+import { Card } from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton"
+
+
+export default async function DashboardPage() {
+  const session = await auth()
+
+  if (!session|| !session.user || !session.user.id) {
+    redirect("/login")
+  }
+
+  // Fetch user data with courses, assignments, and announcements
+  const user = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      role: true,
+    },
+  })
+
+  if (!user) {
+    redirect("/login")
+  }
+
+  // Fetch courses for the user's role
+  const courses = await prisma.course.findMany({
+    where: {
+      members: {
+        some: {
+          userId: user.id,
+        },
+      },
+    },
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      members: {
+        where: {
+          role: "INSTRUCTOR",
+        },
+        select: {
+          user: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      },
+    },
+    take: 6,
+  })
+
+  // Format courses for the UI
+  const formattedCourses = courses.map((course) => ({
+    id: course.id,
+    title: course.name,
+    instructor: course.members[0]?.user.name || "Tidak ada instruktur",
+    progress: 0, // You'll need to calculate this based on user progress
+    description: course.description || "",
+  }))
+
+  // Fetch assignments
+  const assignments = await prisma.assignment.findMany({
+    where: {
+      course: {
+        members: {
+          some: {
+            userId: user.id,
+          },
+        },
+      },
+    },
+    select: {
+      id: true,
+      title: true,
+      dueDate: true,
+      course: {
+        select: {
+          name: true,
+        },
+      },
+      submissions: {
+        where: {
+          studentId: user.id,
+        },
+      },
+    },
+    orderBy: {
+      dueDate: "asc",
+    },
+    take: 5,
+  })
+
+  // Format assignments for the UI
+  const formattedAssignments = assignments.map((assignment) => ({
+    id: assignment.id,
+    title: assignment.title,
+    course: assignment.course.name,
+    dueDate: assignment.dueDate ? assignment.dueDate.toISOString().split("T")[0] : null,
+    isSubmitted: assignment.submissions.length > 0,
+  }))
+
+  // Fetch announcements
+  const announcements = await prisma.post.findMany({
+    where: {
+      course: {
+        members: {
+          some: {
+            userId: user.id,
+          },
+        },
+      },
+    },
+    select: {
+      id: true,
+      title: true,
+      content: true,
+      createdAt: true,
+      author: {
+        select: {
+          name: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: 2,
+  })
+
+  // Format announcements for the UI
+  const formattedAnnouncements = announcements.map((announcement) => ({
+    id: announcement.id,
+    title: announcement.title || "Pengumuman",
+    content: announcement.content,
+    author: announcement.author.name || null,
+    date: announcement.createdAt.toISOString().split("T")[0],
+  }))
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <Suspense fallback={<DashboardSkeleton />}>
+      <DashboardClient
+        user={user}
+        courses={formattedCourses}
+        assignments={formattedAssignments}
+        announcements={formattedAnnouncements}
+      />
+    </Suspense>
+  )
+}
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+function DashboardSkeleton() {
+  return (
+    <div className="p-4 md:p-6 space-y-8">
+      <div className="space-y-2">
+        <Skeleton className="h-8 w-[250px]" />
+        <Skeleton className="h-4 w-[180px]" />
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 space-y-6">
+          <Card className="p-6">
+            <Skeleton className="h-6 w-[150px] mb-6" />
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+              {[1, 2, 3].map((i) => (
+                <Skeleton key={i} className="h-[180px] w-full rounded-lg" />
+              ))}
+            </div>
+          </Card>
+
+          <Card className="p-6">
+            <Skeleton className="h-6 w-[150px] mb-6" />
+            <div className="space-y-4">
+              <Skeleton className="h-[100px] w-full rounded-lg" />
+              <Skeleton className="h-[100px] w-full rounded-lg" />
+            </div>
+          </Card>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+        <div className="space-y-6">
+          <Card className="p-6">
+            <Skeleton className="h-6 w-[150px] mb-6" />
+            <div className="space-y-3">
+              <Skeleton className="h-[60px] w-full rounded-lg" />
+              <Skeleton className="h-[60px] w-full rounded-lg" />
+            </div>
+          </Card>
+
+          <Card className="p-6">
+            <Skeleton className="h-6 w-[150px] mb-6" />
+            <div className="space-y-3">
+              <Skeleton className="h-[80px] w-full rounded-lg" />
+              <Skeleton className="h-[80px] w-full rounded-lg" />
+            </div>
+          </Card>
+        </div>
+      </div>
     </div>
-  );
+  )
 }
