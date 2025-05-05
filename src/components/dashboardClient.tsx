@@ -1,9 +1,7 @@
 "use client"
 import Link from "next/link"
 import type { UserRole } from "@/prisma/app/generated/prisma/client"
-import { useState } from "react"
 import Navbar from "@/components/navbar"
-import Sidebar from "@/components/sidebar"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import CourseCard from "@/components/courseCard"
 import AnnouncementCard from "@/components/announcementCard"
@@ -48,11 +46,7 @@ interface DashboardClientProps {
 }
 
 export default function DashboardClient({ user, courses, assignments, announcements }: DashboardClientProps) {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen)
-  }
   const getRoleDisplay = (role: UserRole) => {
     switch (role) {
       case "TKJ1":
@@ -70,8 +64,7 @@ export default function DashboardClient({ user, courses, assignments, announceme
 
   return (
     <main className="flex min-h-screen flex-col">
-      <Navbar toggleSidebar={toggleSidebar} />
-      <Sidebar isOpen={isSidebarOpen} role={user.role} />
+      <Navbar />
       <div className="p-4 md:p-6">
         {/* Welcome Section */}
         <div className="mb-8">
