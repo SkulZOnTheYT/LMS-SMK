@@ -4,8 +4,11 @@ import type { ReactNode } from "react"
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "LMS Teknik Komputer Jaringan",
-  description: "Learning Management System untuk Teknik Komputer Jaringan",
+  title: {
+    template: "LMS SMKN 1 Raman Utara | %s",
+    default: "LMS SMKN 1 Raman Utara",
+  },
+  description: "Learning Management System untuk siswa dan guru SMKN 1 Raman Utara",
 };
 
 interface RootLayoutProps {

@@ -1,23 +1,23 @@
 import { Suspense } from "react"
-import { auth } from "@/app/auth"
+import { getServerSession } from "next-auth"
 import { redirect } from "next/navigation"
 import { prisma } from "@/app/prisma"
 
+import Navbar from "@/components/navbar"
 import DashboardClient from "@/components/dashboardClient"
 import { Card } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 
-
 export default async function DashboardPage() {
-  const session = await auth()
+  const session = await getServerSession()
 
-  if (!session|| !session.user || !session.user.id) {
+  if (!session|| !session.user) {
     redirect("/login")
   }
 
   // Fetch user data with courses, assignments, and announcements
   const user = await prisma.user.findUnique({
-    where: { id: session.user.id },
+    where: { email: session.user.email ?? undefined },
     select: {
       id: true,
       name: true,
@@ -147,14 +147,16 @@ export default async function DashboardPage() {
   }))
 
   return (
-    <Suspense fallback={<DashboardSkeleton />}>
-      <DashboardClient
-        user={user}
-        courses={formattedCourses}
-        assignments={formattedAssignments}
-        announcements={formattedAnnouncements}
-      />
-    </Suspense>
+    <Navbar>
+      <Suspense fallback={<DashboardSkeleton />}>
+        <DashboardClient
+          user={user}
+          courses={formattedCourses}
+          assignments={formattedAssignments}
+          announcements={formattedAnnouncements}
+        />
+      </Suspense>
+    </Navbar>
   )
 }
 

@@ -31,7 +31,7 @@ export default function LoginPage() {
         </CardHeader>
         <CardContent className="grid gap-4 mt-5">
           <button
-            onClick={() => signIn("google")}
+            onClick={() => signIn("google", { callbackUrl: "/", redirect: false })}
             className="flex w-full items-center justify-center gap-3 rounded-md border border-gray-300 bg-white px-4 py-3 text-black transition-all hover:bg-blue-300 hover:border-blue-400 focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:ring-offset-2"
         >
             <Image
