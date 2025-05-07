@@ -83,7 +83,7 @@ export default function Navbar({ children }: NavbarProps) {
 
   // Check if link is active
   const isActiveLink = (href: string): boolean => {
-    return pathname === href || pathname.startsWith(`${href}/`)
+    return pathname === href;
   }
 
   // Content for the sidebar menu (used in both mobile sheet and desktop sidebar)

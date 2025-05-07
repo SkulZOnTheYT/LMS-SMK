@@ -1,6 +1,7 @@
 import { Providers } from "@/components/providers";
+import AuthNotifier from "@/components/aksesGuru";
 import "./globals.css";
-import type { ReactNode } from "react"
+import { Suspense } from "react"
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -11,15 +12,18 @@ export const metadata: Metadata = {
   description: "Learning Management System untuk siswa dan guru SMKN 1 Raman Utara",
 };
 
-interface RootLayoutProps {
-  children: ReactNode
-}
-
-export default function RootLayout({ children }: RootLayoutProps) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
     <html lang="en">
       <body className="flex min-h-screen flex-col">
         <Providers>
+        <Suspense fallback={<div>Loading notifier...</div>}>
+          <AuthNotifier />
+        </Suspense>
           {children}
         </Providers>
       </body>
