@@ -43,13 +43,9 @@ const authOptions: NextAuthOptions = {
             token.role = dbUser.role;
         }
      }
-     console.log("JWT CALLBACK --- Final Token being returned:", JSON.stringify(token, null, 2));
       return token;
     },
     async session({ session, token }) {
-      console.log("SESSION CALLBACK --- Start");
-      console.log("SESSION CALLBACK --- Initial Session:", JSON.stringify(session, null, 2));
-      console.log("SESSION CALLBACK --- Token received from JWT callback:", JSON.stringify(token, null, 2));
       if (session.user) { 
         if (token.id) { 
           session.user.id = token.id as string;
@@ -61,7 +57,6 @@ const authOptions: NextAuthOptions = {
           session.user.role = token.role; // Sesuaikan tipe UserRole jika perlu
         }
       }
-      console.log("SESSION CALLBACK --- Final Session being returned:", JSON.stringify(session, null, 2));
       return session;
     }
   },

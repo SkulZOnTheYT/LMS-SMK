@@ -1805,6 +1805,8 @@ export namespace Prisma {
     posts: number
     comments: number
     submissions: number
+    assignmentsAuthored: number
+    materialsAuthored: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1814,6 +1816,8 @@ export namespace Prisma {
     posts?: boolean | UserCountOutputTypeCountPostsArgs
     comments?: boolean | UserCountOutputTypeCountCommentsArgs
     submissions?: boolean | UserCountOutputTypeCountSubmissionsArgs
+    assignmentsAuthored?: boolean | UserCountOutputTypeCountAssignmentsAuthoredArgs
+    materialsAuthored?: boolean | UserCountOutputTypeCountMaterialsAuthoredArgs
   }
 
   // Custom InputTypes
@@ -1867,6 +1871,20 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountSubmissionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SubmissionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountAssignmentsAuthoredArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssignmentWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountMaterialsAuthoredArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MaterialWhereInput
   }
 
 
@@ -2136,7 +2154,7 @@ export namespace Prisma {
   export type UserGroupByOutputType = {
     id: string
     name: string | null
-    email: string | null
+    email: string
     emailVerified: Date | null
     image: string | null
     role: $Enums.UserRole
@@ -2172,6 +2190,8 @@ export namespace Prisma {
     posts?: boolean | User$postsArgs<ExtArgs>
     comments?: boolean | User$commentsArgs<ExtArgs>
     submissions?: boolean | User$submissionsArgs<ExtArgs>
+    assignmentsAuthored?: boolean | User$assignmentsAuthoredArgs<ExtArgs>
+    materialsAuthored?: boolean | User$materialsAuthoredArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2210,6 +2230,8 @@ export namespace Prisma {
     posts?: boolean | User$postsArgs<ExtArgs>
     comments?: boolean | User$commentsArgs<ExtArgs>
     submissions?: boolean | User$submissionsArgs<ExtArgs>
+    assignmentsAuthored?: boolean | User$assignmentsAuthoredArgs<ExtArgs>
+    materialsAuthored?: boolean | User$materialsAuthoredArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2224,11 +2246,13 @@ export namespace Prisma {
       posts: Prisma.$PostPayload<ExtArgs>[]
       comments: Prisma.$CommentPayload<ExtArgs>[]
       submissions: Prisma.$SubmissionPayload<ExtArgs>[]
+      assignmentsAuthored: Prisma.$AssignmentPayload<ExtArgs>[]
+      materialsAuthored: Prisma.$MaterialPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string | null
-      email: string | null
+      email: string
       emailVerified: Date | null
       image: string | null
       role: $Enums.UserRole
@@ -2632,6 +2656,8 @@ export namespace Prisma {
     posts<T extends User$postsArgs<ExtArgs> = {}>(args?: Subset<T, User$postsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     comments<T extends User$commentsArgs<ExtArgs> = {}>(args?: Subset<T, User$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     submissions<T extends User$submissionsArgs<ExtArgs> = {}>(args?: Subset<T, User$submissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    assignmentsAuthored<T extends User$assignmentsAuthoredArgs<ExtArgs> = {}>(args?: Subset<T, User$assignmentsAuthoredArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    materialsAuthored<T extends User$materialsAuthoredArgs<ExtArgs> = {}>(args?: Subset<T, User$materialsAuthoredArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MaterialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2885,7 +2911,7 @@ export namespace Prisma {
     /**
      * The data needed to create a User.
      */
-    data?: XOR<UserCreateInput, UserUncheckedCreateInput>
+    data: XOR<UserCreateInput, UserUncheckedCreateInput>
   }
 
   /**
@@ -3196,6 +3222,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: SubmissionScalarFieldEnum | SubmissionScalarFieldEnum[]
+  }
+
+  /**
+   * User.assignmentsAuthored
+   */
+  export type User$assignmentsAuthoredArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Assignment
+     */
+    select?: AssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Assignment
+     */
+    omit?: AssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignmentInclude<ExtArgs> | null
+    where?: AssignmentWhereInput
+    orderBy?: AssignmentOrderByWithRelationInput | AssignmentOrderByWithRelationInput[]
+    cursor?: AssignmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssignmentScalarFieldEnum | AssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * User.materialsAuthored
+   */
+  export type User$materialsAuthoredArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Material
+     */
+    select?: MaterialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Material
+     */
+    omit?: MaterialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MaterialInclude<ExtArgs> | null
+    where?: MaterialWhereInput
+    orderBy?: MaterialOrderByWithRelationInput | MaterialOrderByWithRelationInput[]
+    cursor?: MaterialWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MaterialScalarFieldEnum | MaterialScalarFieldEnum[]
   }
 
   /**
@@ -5464,18 +5538,22 @@ export namespace Prisma {
     id: string | null
     title: string | null
     description: string | null
+    targetKelas: $Enums.UserRole | null
     createdAt: Date | null
     updatedAt: Date | null
     courseId: string | null
+    authorId: string | null
   }
 
   export type MaterialMaxAggregateOutputType = {
     id: string | null
     title: string | null
     description: string | null
+    targetKelas: $Enums.UserRole | null
     createdAt: Date | null
     updatedAt: Date | null
     courseId: string | null
+    authorId: string | null
   }
 
   export type MaterialCountAggregateOutputType = {
@@ -5483,9 +5561,11 @@ export namespace Prisma {
     title: number
     description: number
     files: number
+    targetKelas: number
     createdAt: number
     updatedAt: number
     courseId: number
+    authorId: number
     _all: number
   }
 
@@ -5494,18 +5574,22 @@ export namespace Prisma {
     id?: true
     title?: true
     description?: true
+    targetKelas?: true
     createdAt?: true
     updatedAt?: true
     courseId?: true
+    authorId?: true
   }
 
   export type MaterialMaxAggregateInputType = {
     id?: true
     title?: true
     description?: true
+    targetKelas?: true
     createdAt?: true
     updatedAt?: true
     courseId?: true
+    authorId?: true
   }
 
   export type MaterialCountAggregateInputType = {
@@ -5513,9 +5597,11 @@ export namespace Prisma {
     title?: true
     description?: true
     files?: true
+    targetKelas?: true
     createdAt?: true
     updatedAt?: true
     courseId?: true
+    authorId?: true
     _all?: true
   }
 
@@ -5596,9 +5682,11 @@ export namespace Prisma {
     title: string
     description: string | null
     files: JsonValue | null
+    targetKelas: $Enums.UserRole | null
     createdAt: Date
     updatedAt: Date
     courseId: string
+    authorId: string
     _count: MaterialCountAggregateOutputType | null
     _min: MaterialMinAggregateOutputType | null
     _max: MaterialMaxAggregateOutputType | null
@@ -5623,10 +5711,13 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     files?: boolean
+    targetKelas?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     courseId?: boolean
+    authorId?: boolean
     course?: boolean | CourseDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["material"]>
 
   export type MaterialSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -5634,10 +5725,13 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     files?: boolean
+    targetKelas?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     courseId?: boolean
+    authorId?: boolean
     course?: boolean | CourseDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["material"]>
 
   export type MaterialSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -5645,10 +5739,13 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     files?: boolean
+    targetKelas?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     courseId?: boolean
+    authorId?: boolean
     course?: boolean | CourseDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["material"]>
 
   export type MaterialSelectScalar = {
@@ -5656,35 +5753,43 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     files?: boolean
+    targetKelas?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     courseId?: boolean
+    authorId?: boolean
   }
 
-  export type MaterialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "files" | "createdAt" | "updatedAt" | "courseId", ExtArgs["result"]["material"]>
+  export type MaterialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "files" | "targetKelas" | "createdAt" | "updatedAt" | "courseId" | "authorId", ExtArgs["result"]["material"]>
   export type MaterialInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     course?: boolean | CourseDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type MaterialIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     course?: boolean | CourseDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type MaterialIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     course?: boolean | CourseDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $MaterialPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Material"
     objects: {
       course: Prisma.$CoursePayload<ExtArgs>
+      author: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       title: string
       description: string | null
       files: Prisma.JsonValue | null
+      targetKelas: $Enums.UserRole | null
       createdAt: Date
       updatedAt: Date
       courseId: string
+      authorId: string
     }, ExtArgs["result"]["material"]>
     composites: {}
   }
@@ -6080,6 +6185,7 @@ export namespace Prisma {
   export interface Prisma__MaterialClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     course<T extends CourseDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CourseDefaultArgs<ExtArgs>>): Prisma__CourseClient<$Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    author<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6113,9 +6219,11 @@ export namespace Prisma {
     readonly title: FieldRef<"Material", 'String'>
     readonly description: FieldRef<"Material", 'String'>
     readonly files: FieldRef<"Material", 'Json'>
+    readonly targetKelas: FieldRef<"Material", 'UserRole'>
     readonly createdAt: FieldRef<"Material", 'DateTime'>
     readonly updatedAt: FieldRef<"Material", 'DateTime'>
     readonly courseId: FieldRef<"Material", 'String'>
+    readonly authorId: FieldRef<"Material", 'String'>
   }
     
 
@@ -6556,9 +6664,11 @@ export namespace Prisma {
     description: string | null
     dueDate: Date | null
     points: number | null
+    targetKelas: $Enums.UserRole | null
     createdAt: Date | null
     updatedAt: Date | null
     courseId: string | null
+    authorId: string | null
   }
 
   export type AssignmentMaxAggregateOutputType = {
@@ -6567,9 +6677,11 @@ export namespace Prisma {
     description: string | null
     dueDate: Date | null
     points: number | null
+    targetKelas: $Enums.UserRole | null
     createdAt: Date | null
     updatedAt: Date | null
     courseId: string | null
+    authorId: string | null
   }
 
   export type AssignmentCountAggregateOutputType = {
@@ -6579,9 +6691,11 @@ export namespace Prisma {
     dueDate: number
     points: number
     files: number
+    targetKelas: number
     createdAt: number
     updatedAt: number
     courseId: number
+    authorId: number
     _all: number
   }
 
@@ -6600,9 +6714,11 @@ export namespace Prisma {
     description?: true
     dueDate?: true
     points?: true
+    targetKelas?: true
     createdAt?: true
     updatedAt?: true
     courseId?: true
+    authorId?: true
   }
 
   export type AssignmentMaxAggregateInputType = {
@@ -6611,9 +6727,11 @@ export namespace Prisma {
     description?: true
     dueDate?: true
     points?: true
+    targetKelas?: true
     createdAt?: true
     updatedAt?: true
     courseId?: true
+    authorId?: true
   }
 
   export type AssignmentCountAggregateInputType = {
@@ -6623,9 +6741,11 @@ export namespace Prisma {
     dueDate?: true
     points?: true
     files?: true
+    targetKelas?: true
     createdAt?: true
     updatedAt?: true
     courseId?: true
+    authorId?: true
     _all?: true
   }
 
@@ -6719,12 +6839,14 @@ export namespace Prisma {
     id: string
     title: string
     description: string | null
-    dueDate: Date | null
+    dueDate: Date
     points: number | null
     files: JsonValue | null
+    targetKelas: $Enums.UserRole | null
     createdAt: Date
     updatedAt: Date
     courseId: string
+    authorId: string
     _count: AssignmentCountAggregateOutputType | null
     _avg: AssignmentAvgAggregateOutputType | null
     _sum: AssignmentSumAggregateOutputType | null
@@ -6753,10 +6875,13 @@ export namespace Prisma {
     dueDate?: boolean
     points?: boolean
     files?: boolean
+    targetKelas?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     courseId?: boolean
+    authorId?: boolean
     course?: boolean | CourseDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
     submissions?: boolean | Assignment$submissionsArgs<ExtArgs>
     _count?: boolean | AssignmentCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["assignment"]>
@@ -6768,10 +6893,13 @@ export namespace Prisma {
     dueDate?: boolean
     points?: boolean
     files?: boolean
+    targetKelas?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     courseId?: boolean
+    authorId?: boolean
     course?: boolean | CourseDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["assignment"]>
 
   export type AssignmentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6781,10 +6909,13 @@ export namespace Prisma {
     dueDate?: boolean
     points?: boolean
     files?: boolean
+    targetKelas?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     courseId?: boolean
+    authorId?: boolean
     course?: boolean | CourseDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["assignment"]>
 
   export type AssignmentSelectScalar = {
@@ -6794,40 +6925,48 @@ export namespace Prisma {
     dueDate?: boolean
     points?: boolean
     files?: boolean
+    targetKelas?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     courseId?: boolean
+    authorId?: boolean
   }
 
-  export type AssignmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "dueDate" | "points" | "files" | "createdAt" | "updatedAt" | "courseId", ExtArgs["result"]["assignment"]>
+  export type AssignmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "dueDate" | "points" | "files" | "targetKelas" | "createdAt" | "updatedAt" | "courseId" | "authorId", ExtArgs["result"]["assignment"]>
   export type AssignmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     course?: boolean | CourseDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
     submissions?: boolean | Assignment$submissionsArgs<ExtArgs>
     _count?: boolean | AssignmentCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type AssignmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     course?: boolean | CourseDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type AssignmentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     course?: boolean | CourseDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $AssignmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Assignment"
     objects: {
       course: Prisma.$CoursePayload<ExtArgs>
+      author: Prisma.$UserPayload<ExtArgs>
       submissions: Prisma.$SubmissionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       title: string
       description: string | null
-      dueDate: Date | null
+      dueDate: Date
       points: number | null
       files: Prisma.JsonValue | null
+      targetKelas: $Enums.UserRole | null
       createdAt: Date
       updatedAt: Date
       courseId: string
+      authorId: string
     }, ExtArgs["result"]["assignment"]>
     composites: {}
   }
@@ -7223,6 +7362,7 @@ export namespace Prisma {
   export interface Prisma__AssignmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     course<T extends CourseDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CourseDefaultArgs<ExtArgs>>): Prisma__CourseClient<$Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    author<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     submissions<T extends Assignment$submissionsArgs<ExtArgs> = {}>(args?: Subset<T, Assignment$submissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -7259,9 +7399,11 @@ export namespace Prisma {
     readonly dueDate: FieldRef<"Assignment", 'DateTime'>
     readonly points: FieldRef<"Assignment", 'Int'>
     readonly files: FieldRef<"Assignment", 'Json'>
+    readonly targetKelas: FieldRef<"Assignment", 'UserRole'>
     readonly createdAt: FieldRef<"Assignment", 'DateTime'>
     readonly updatedAt: FieldRef<"Assignment", 'DateTime'>
     readonly courseId: FieldRef<"Assignment", 'String'>
+    readonly authorId: FieldRef<"Assignment", 'String'>
   }
     
 
@@ -14287,9 +14429,11 @@ export namespace Prisma {
     title: 'title',
     description: 'description',
     files: 'files',
+    targetKelas: 'targetKelas',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    courseId: 'courseId'
+    courseId: 'courseId',
+    authorId: 'authorId'
   };
 
   export type MaterialScalarFieldEnum = (typeof MaterialScalarFieldEnum)[keyof typeof MaterialScalarFieldEnum]
@@ -14302,9 +14446,11 @@ export namespace Prisma {
     dueDate: 'dueDate',
     points: 'points',
     files: 'files',
+    targetKelas: 'targetKelas',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    courseId: 'courseId'
+    courseId: 'courseId',
+    authorId: 'authorId'
   };
 
   export type AssignmentScalarFieldEnum = (typeof AssignmentScalarFieldEnum)[keyof typeof AssignmentScalarFieldEnum]
@@ -14525,7 +14671,7 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     id?: StringFilter<"User"> | string
     name?: StringNullableFilter<"User"> | string | null
-    email?: StringNullableFilter<"User"> | string | null
+    email?: StringFilter<"User"> | string
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
     image?: StringNullableFilter<"User"> | string | null
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
@@ -14535,12 +14681,14 @@ export namespace Prisma {
     posts?: PostListRelationFilter
     comments?: CommentListRelationFilter
     submissions?: SubmissionListRelationFilter
+    assignmentsAuthored?: AssignmentListRelationFilter
+    materialsAuthored?: MaterialListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrderInput | SortOrder
-    email?: SortOrderInput | SortOrder
+    email?: SortOrder
     emailVerified?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
     role?: SortOrder
@@ -14550,6 +14698,8 @@ export namespace Prisma {
     posts?: PostOrderByRelationAggregateInput
     comments?: CommentOrderByRelationAggregateInput
     submissions?: SubmissionOrderByRelationAggregateInput
+    assignmentsAuthored?: AssignmentOrderByRelationAggregateInput
+    materialsAuthored?: MaterialOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -14568,12 +14718,14 @@ export namespace Prisma {
     posts?: PostListRelationFilter
     comments?: CommentListRelationFilter
     submissions?: SubmissionListRelationFilter
+    assignmentsAuthored?: AssignmentListRelationFilter
+    materialsAuthored?: MaterialListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrderInput | SortOrder
-    email?: SortOrderInput | SortOrder
+    email?: SortOrder
     emailVerified?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
     role?: SortOrder
@@ -14588,7 +14740,7 @@ export namespace Prisma {
     NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"User"> | string
     name?: StringNullableWithAggregatesFilter<"User"> | string | null
-    email?: StringNullableWithAggregatesFilter<"User"> | string | null
+    email?: StringWithAggregatesFilter<"User"> | string
     emailVerified?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
     role?: EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
@@ -14730,10 +14882,13 @@ export namespace Prisma {
     title?: StringFilter<"Material"> | string
     description?: StringNullableFilter<"Material"> | string | null
     files?: JsonNullableFilter<"Material">
+    targetKelas?: EnumUserRoleNullableFilter<"Material"> | $Enums.UserRole | null
     createdAt?: DateTimeFilter<"Material"> | Date | string
     updatedAt?: DateTimeFilter<"Material"> | Date | string
     courseId?: StringFilter<"Material"> | string
+    authorId?: StringFilter<"Material"> | string
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
+    author?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type MaterialOrderByWithRelationInput = {
@@ -14741,10 +14896,13 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrderInput | SortOrder
     files?: SortOrderInput | SortOrder
+    targetKelas?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     courseId?: SortOrder
+    authorId?: SortOrder
     course?: CourseOrderByWithRelationInput
+    author?: UserOrderByWithRelationInput
   }
 
   export type MaterialWhereUniqueInput = Prisma.AtLeast<{
@@ -14755,10 +14913,13 @@ export namespace Prisma {
     title?: StringFilter<"Material"> | string
     description?: StringNullableFilter<"Material"> | string | null
     files?: JsonNullableFilter<"Material">
+    targetKelas?: EnumUserRoleNullableFilter<"Material"> | $Enums.UserRole | null
     createdAt?: DateTimeFilter<"Material"> | Date | string
     updatedAt?: DateTimeFilter<"Material"> | Date | string
     courseId?: StringFilter<"Material"> | string
+    authorId?: StringFilter<"Material"> | string
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
+    author?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
   export type MaterialOrderByWithAggregationInput = {
@@ -14766,9 +14927,11 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrderInput | SortOrder
     files?: SortOrderInput | SortOrder
+    targetKelas?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     courseId?: SortOrder
+    authorId?: SortOrder
     _count?: MaterialCountOrderByAggregateInput
     _max?: MaterialMaxOrderByAggregateInput
     _min?: MaterialMinOrderByAggregateInput
@@ -14782,9 +14945,11 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter<"Material"> | string
     description?: StringNullableWithAggregatesFilter<"Material"> | string | null
     files?: JsonNullableWithAggregatesFilter<"Material">
+    targetKelas?: EnumUserRoleNullableWithAggregatesFilter<"Material"> | $Enums.UserRole | null
     createdAt?: DateTimeWithAggregatesFilter<"Material"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Material"> | Date | string
     courseId?: StringWithAggregatesFilter<"Material"> | string
+    authorId?: StringWithAggregatesFilter<"Material"> | string
   }
 
   export type AssignmentWhereInput = {
@@ -14794,13 +14959,16 @@ export namespace Prisma {
     id?: StringFilter<"Assignment"> | string
     title?: StringFilter<"Assignment"> | string
     description?: StringNullableFilter<"Assignment"> | string | null
-    dueDate?: DateTimeNullableFilter<"Assignment"> | Date | string | null
+    dueDate?: DateTimeFilter<"Assignment"> | Date | string
     points?: IntNullableFilter<"Assignment"> | number | null
     files?: JsonNullableFilter<"Assignment">
+    targetKelas?: EnumUserRoleNullableFilter<"Assignment"> | $Enums.UserRole | null
     createdAt?: DateTimeFilter<"Assignment"> | Date | string
     updatedAt?: DateTimeFilter<"Assignment"> | Date | string
     courseId?: StringFilter<"Assignment"> | string
+    authorId?: StringFilter<"Assignment"> | string
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
+    author?: XOR<UserScalarRelationFilter, UserWhereInput>
     submissions?: SubmissionListRelationFilter
   }
 
@@ -14808,13 +14976,16 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrderInput | SortOrder
-    dueDate?: SortOrderInput | SortOrder
+    dueDate?: SortOrder
     points?: SortOrderInput | SortOrder
     files?: SortOrderInput | SortOrder
+    targetKelas?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     courseId?: SortOrder
+    authorId?: SortOrder
     course?: CourseOrderByWithRelationInput
+    author?: UserOrderByWithRelationInput
     submissions?: SubmissionOrderByRelationAggregateInput
   }
 
@@ -14825,13 +14996,16 @@ export namespace Prisma {
     NOT?: AssignmentWhereInput | AssignmentWhereInput[]
     title?: StringFilter<"Assignment"> | string
     description?: StringNullableFilter<"Assignment"> | string | null
-    dueDate?: DateTimeNullableFilter<"Assignment"> | Date | string | null
+    dueDate?: DateTimeFilter<"Assignment"> | Date | string
     points?: IntNullableFilter<"Assignment"> | number | null
     files?: JsonNullableFilter<"Assignment">
+    targetKelas?: EnumUserRoleNullableFilter<"Assignment"> | $Enums.UserRole | null
     createdAt?: DateTimeFilter<"Assignment"> | Date | string
     updatedAt?: DateTimeFilter<"Assignment"> | Date | string
     courseId?: StringFilter<"Assignment"> | string
+    authorId?: StringFilter<"Assignment"> | string
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
+    author?: XOR<UserScalarRelationFilter, UserWhereInput>
     submissions?: SubmissionListRelationFilter
   }, "id">
 
@@ -14839,12 +15013,14 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrderInput | SortOrder
-    dueDate?: SortOrderInput | SortOrder
+    dueDate?: SortOrder
     points?: SortOrderInput | SortOrder
     files?: SortOrderInput | SortOrder
+    targetKelas?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     courseId?: SortOrder
+    authorId?: SortOrder
     _count?: AssignmentCountOrderByAggregateInput
     _avg?: AssignmentAvgOrderByAggregateInput
     _max?: AssignmentMaxOrderByAggregateInput
@@ -14859,12 +15035,14 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Assignment"> | string
     title?: StringWithAggregatesFilter<"Assignment"> | string
     description?: StringNullableWithAggregatesFilter<"Assignment"> | string | null
-    dueDate?: DateTimeNullableWithAggregatesFilter<"Assignment"> | Date | string | null
+    dueDate?: DateTimeWithAggregatesFilter<"Assignment"> | Date | string
     points?: IntNullableWithAggregatesFilter<"Assignment"> | number | null
     files?: JsonNullableWithAggregatesFilter<"Assignment">
+    targetKelas?: EnumUserRoleNullableWithAggregatesFilter<"Assignment"> | $Enums.UserRole | null
     createdAt?: DateTimeWithAggregatesFilter<"Assignment"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Assignment"> | Date | string
     courseId?: StringWithAggregatesFilter<"Assignment"> | string
+    authorId?: StringWithAggregatesFilter<"Assignment"> | string
   }
 
   export type SubmissionWhereInput = {
@@ -15266,7 +15444,7 @@ export namespace Prisma {
   export type UserCreateInput = {
     id?: string
     name?: string | null
-    email?: string | null
+    email: string
     emailVerified?: Date | string | null
     image?: string | null
     role?: $Enums.UserRole
@@ -15276,12 +15454,14 @@ export namespace Prisma {
     posts?: PostCreateNestedManyWithoutAuthorInput
     comments?: CommentCreateNestedManyWithoutAuthorInput
     submissions?: SubmissionCreateNestedManyWithoutStudentInput
+    assignmentsAuthored?: AssignmentCreateNestedManyWithoutAuthorInput
+    materialsAuthored?: MaterialCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateInput = {
     id?: string
     name?: string | null
-    email?: string | null
+    email: string
     emailVerified?: Date | string | null
     image?: string | null
     role?: $Enums.UserRole
@@ -15291,12 +15471,14 @@ export namespace Prisma {
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
     comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
     submissions?: SubmissionUncheckedCreateNestedManyWithoutStudentInput
+    assignmentsAuthored?: AssignmentUncheckedCreateNestedManyWithoutAuthorInput
+    materialsAuthored?: MaterialUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -15306,12 +15488,14 @@ export namespace Prisma {
     posts?: PostUpdateManyWithoutAuthorNestedInput
     comments?: CommentUpdateManyWithoutAuthorNestedInput
     submissions?: SubmissionUpdateManyWithoutStudentNestedInput
+    assignmentsAuthored?: AssignmentUpdateManyWithoutAuthorNestedInput
+    materialsAuthored?: MaterialUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -15321,12 +15505,14 @@ export namespace Prisma {
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
     comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
     submissions?: SubmissionUncheckedUpdateManyWithoutStudentNestedInput
+    assignmentsAuthored?: AssignmentUncheckedUpdateManyWithoutAuthorNestedInput
+    materialsAuthored?: MaterialUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserCreateManyInput = {
     id?: string
     name?: string | null
-    email?: string | null
+    email: string
     emailVerified?: Date | string | null
     image?: string | null
     role?: $Enums.UserRole
@@ -15335,7 +15521,7 @@ export namespace Prisma {
   export type UserUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -15344,7 +15530,7 @@ export namespace Prisma {
   export type UserUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -15488,9 +15674,11 @@ export namespace Prisma {
     title: string
     description?: string | null
     files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: $Enums.UserRole | null
     createdAt?: Date | string
     updatedAt?: Date | string
     course: CourseCreateNestedOneWithoutMaterialsInput
+    author: UserCreateNestedOneWithoutMaterialsAuthoredInput
   }
 
   export type MaterialUncheckedCreateInput = {
@@ -15498,9 +15686,11 @@ export namespace Prisma {
     title: string
     description?: string | null
     files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: $Enums.UserRole | null
     createdAt?: Date | string
     updatedAt?: Date | string
     courseId: string
+    authorId: string
   }
 
   export type MaterialUpdateInput = {
@@ -15508,9 +15698,11 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: NullableEnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     course?: CourseUpdateOneRequiredWithoutMaterialsNestedInput
+    author?: UserUpdateOneRequiredWithoutMaterialsAuthoredNestedInput
   }
 
   export type MaterialUncheckedUpdateInput = {
@@ -15518,9 +15710,11 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: NullableEnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     courseId?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
   }
 
   export type MaterialCreateManyInput = {
@@ -15528,9 +15722,11 @@ export namespace Prisma {
     title: string
     description?: string | null
     files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: $Enums.UserRole | null
     createdAt?: Date | string
     updatedAt?: Date | string
     courseId: string
+    authorId: string
   }
 
   export type MaterialUpdateManyMutationInput = {
@@ -15538,6 +15734,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: NullableEnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15547,21 +15744,25 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: NullableEnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     courseId?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
   }
 
   export type AssignmentCreateInput = {
     id?: string
     title: string
     description?: string | null
-    dueDate?: Date | string | null
+    dueDate: Date | string
     points?: number | null
     files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: $Enums.UserRole | null
     createdAt?: Date | string
     updatedAt?: Date | string
     course: CourseCreateNestedOneWithoutAssignmentsInput
+    author: UserCreateNestedOneWithoutAssignmentsAuthoredInput
     submissions?: SubmissionCreateNestedManyWithoutAssignmentInput
   }
 
@@ -15569,12 +15770,14 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    dueDate?: Date | string | null
+    dueDate: Date | string
     points?: number | null
     files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: $Enums.UserRole | null
     createdAt?: Date | string
     updatedAt?: Date | string
     courseId: string
+    authorId: string
     submissions?: SubmissionUncheckedCreateNestedManyWithoutAssignmentInput
   }
 
@@ -15582,12 +15785,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
     files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: NullableEnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     course?: CourseUpdateOneRequiredWithoutAssignmentsNestedInput
+    author?: UserUpdateOneRequiredWithoutAssignmentsAuthoredNestedInput
     submissions?: SubmissionUpdateManyWithoutAssignmentNestedInput
   }
 
@@ -15595,12 +15800,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
     files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: NullableEnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     courseId?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
     submissions?: SubmissionUncheckedUpdateManyWithoutAssignmentNestedInput
   }
 
@@ -15608,21 +15815,24 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    dueDate?: Date | string | null
+    dueDate: Date | string
     points?: number | null
     files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: $Enums.UserRole | null
     createdAt?: Date | string
     updatedAt?: Date | string
     courseId: string
+    authorId: string
   }
 
   export type AssignmentUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
     files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: NullableEnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15631,12 +15841,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
     files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: NullableEnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     courseId?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
   }
 
   export type SubmissionCreateInput = {
@@ -16125,6 +16337,18 @@ export namespace Prisma {
     none?: SubmissionWhereInput
   }
 
+  export type AssignmentListRelationFilter = {
+    every?: AssignmentWhereInput
+    some?: AssignmentWhereInput
+    none?: AssignmentWhereInput
+  }
+
+  export type MaterialListRelationFilter = {
+    every?: MaterialWhereInput
+    some?: MaterialWhereInput
+    none?: MaterialWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -16151,6 +16375,14 @@ export namespace Prisma {
   }
 
   export type SubmissionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AssignmentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type MaterialOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -16250,26 +16482,6 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
-  }
-
-  export type MaterialListRelationFilter = {
-    every?: MaterialWhereInput
-    some?: MaterialWhereInput
-    none?: MaterialWhereInput
-  }
-
-  export type AssignmentListRelationFilter = {
-    every?: AssignmentWhereInput
-    some?: AssignmentWhereInput
-    none?: AssignmentWhereInput
-  }
-
-  export type MaterialOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type AssignmentOrderByRelationAggregateInput = {
-    _count?: SortOrder
   }
 
   export type CourseCountOrderByAggregateInput = {
@@ -16375,32 +16587,45 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type EnumUserRoleNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel> | null
+    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumUserRoleNullableFilter<$PrismaModel> | $Enums.UserRole | null
+  }
+
   export type MaterialCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
     files?: SortOrder
+    targetKelas?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     courseId?: SortOrder
+    authorId?: SortOrder
   }
 
   export type MaterialMaxOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
+    targetKelas?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     courseId?: SortOrder
+    authorId?: SortOrder
   }
 
   export type MaterialMinOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
+    targetKelas?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     courseId?: SortOrder
+    authorId?: SortOrder
   }
   export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -16429,6 +16654,16 @@ export namespace Prisma {
     _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
+  export type EnumUserRoleNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel> | null
+    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumUserRoleNullableWithAggregatesFilter<$PrismaModel> | $Enums.UserRole | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumUserRoleNullableFilter<$PrismaModel>
+    _max?: NestedEnumUserRoleNullableFilter<$PrismaModel>
+  }
+
   export type IntNullableFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
@@ -16447,9 +16682,11 @@ export namespace Prisma {
     dueDate?: SortOrder
     points?: SortOrder
     files?: SortOrder
+    targetKelas?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     courseId?: SortOrder
+    authorId?: SortOrder
   }
 
   export type AssignmentAvgOrderByAggregateInput = {
@@ -16462,9 +16699,11 @@ export namespace Prisma {
     description?: SortOrder
     dueDate?: SortOrder
     points?: SortOrder
+    targetKelas?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     courseId?: SortOrder
+    authorId?: SortOrder
   }
 
   export type AssignmentMinOrderByAggregateInput = {
@@ -16473,9 +16712,11 @@ export namespace Prisma {
     description?: SortOrder
     dueDate?: SortOrder
     points?: SortOrder
+    targetKelas?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     courseId?: SortOrder
+    authorId?: SortOrder
   }
 
   export type AssignmentSumOrderByAggregateInput = {
@@ -16753,6 +16994,20 @@ export namespace Prisma {
     connect?: SubmissionWhereUniqueInput | SubmissionWhereUniqueInput[]
   }
 
+  export type AssignmentCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<AssignmentCreateWithoutAuthorInput, AssignmentUncheckedCreateWithoutAuthorInput> | AssignmentCreateWithoutAuthorInput[] | AssignmentUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: AssignmentCreateOrConnectWithoutAuthorInput | AssignmentCreateOrConnectWithoutAuthorInput[]
+    createMany?: AssignmentCreateManyAuthorInputEnvelope
+    connect?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+  }
+
+  export type MaterialCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<MaterialCreateWithoutAuthorInput, MaterialUncheckedCreateWithoutAuthorInput> | MaterialCreateWithoutAuthorInput[] | MaterialUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: MaterialCreateOrConnectWithoutAuthorInput | MaterialCreateOrConnectWithoutAuthorInput[]
+    createMany?: MaterialCreateManyAuthorInputEnvelope
+    connect?: MaterialWhereUniqueInput | MaterialWhereUniqueInput[]
+  }
+
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -16793,6 +17048,20 @@ export namespace Prisma {
     connectOrCreate?: SubmissionCreateOrConnectWithoutStudentInput | SubmissionCreateOrConnectWithoutStudentInput[]
     createMany?: SubmissionCreateManyStudentInputEnvelope
     connect?: SubmissionWhereUniqueInput | SubmissionWhereUniqueInput[]
+  }
+
+  export type AssignmentUncheckedCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<AssignmentCreateWithoutAuthorInput, AssignmentUncheckedCreateWithoutAuthorInput> | AssignmentCreateWithoutAuthorInput[] | AssignmentUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: AssignmentCreateOrConnectWithoutAuthorInput | AssignmentCreateOrConnectWithoutAuthorInput[]
+    createMany?: AssignmentCreateManyAuthorInputEnvelope
+    connect?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+  }
+
+  export type MaterialUncheckedCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<MaterialCreateWithoutAuthorInput, MaterialUncheckedCreateWithoutAuthorInput> | MaterialCreateWithoutAuthorInput[] | MaterialUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: MaterialCreateOrConnectWithoutAuthorInput | MaterialCreateOrConnectWithoutAuthorInput[]
+    createMany?: MaterialCreateManyAuthorInputEnvelope
+    connect?: MaterialWhereUniqueInput | MaterialWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -16895,6 +17164,34 @@ export namespace Prisma {
     deleteMany?: SubmissionScalarWhereInput | SubmissionScalarWhereInput[]
   }
 
+  export type AssignmentUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<AssignmentCreateWithoutAuthorInput, AssignmentUncheckedCreateWithoutAuthorInput> | AssignmentCreateWithoutAuthorInput[] | AssignmentUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: AssignmentCreateOrConnectWithoutAuthorInput | AssignmentCreateOrConnectWithoutAuthorInput[]
+    upsert?: AssignmentUpsertWithWhereUniqueWithoutAuthorInput | AssignmentUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: AssignmentCreateManyAuthorInputEnvelope
+    set?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+    disconnect?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+    delete?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+    connect?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+    update?: AssignmentUpdateWithWhereUniqueWithoutAuthorInput | AssignmentUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: AssignmentUpdateManyWithWhereWithoutAuthorInput | AssignmentUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: AssignmentScalarWhereInput | AssignmentScalarWhereInput[]
+  }
+
+  export type MaterialUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<MaterialCreateWithoutAuthorInput, MaterialUncheckedCreateWithoutAuthorInput> | MaterialCreateWithoutAuthorInput[] | MaterialUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: MaterialCreateOrConnectWithoutAuthorInput | MaterialCreateOrConnectWithoutAuthorInput[]
+    upsert?: MaterialUpsertWithWhereUniqueWithoutAuthorInput | MaterialUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: MaterialCreateManyAuthorInputEnvelope
+    set?: MaterialWhereUniqueInput | MaterialWhereUniqueInput[]
+    disconnect?: MaterialWhereUniqueInput | MaterialWhereUniqueInput[]
+    delete?: MaterialWhereUniqueInput | MaterialWhereUniqueInput[]
+    connect?: MaterialWhereUniqueInput | MaterialWhereUniqueInput[]
+    update?: MaterialUpdateWithWhereUniqueWithoutAuthorInput | MaterialUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: MaterialUpdateManyWithWhereWithoutAuthorInput | MaterialUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: MaterialScalarWhereInput | MaterialScalarWhereInput[]
+  }
+
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -16977,6 +17274,34 @@ export namespace Prisma {
     update?: SubmissionUpdateWithWhereUniqueWithoutStudentInput | SubmissionUpdateWithWhereUniqueWithoutStudentInput[]
     updateMany?: SubmissionUpdateManyWithWhereWithoutStudentInput | SubmissionUpdateManyWithWhereWithoutStudentInput[]
     deleteMany?: SubmissionScalarWhereInput | SubmissionScalarWhereInput[]
+  }
+
+  export type AssignmentUncheckedUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<AssignmentCreateWithoutAuthorInput, AssignmentUncheckedCreateWithoutAuthorInput> | AssignmentCreateWithoutAuthorInput[] | AssignmentUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: AssignmentCreateOrConnectWithoutAuthorInput | AssignmentCreateOrConnectWithoutAuthorInput[]
+    upsert?: AssignmentUpsertWithWhereUniqueWithoutAuthorInput | AssignmentUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: AssignmentCreateManyAuthorInputEnvelope
+    set?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+    disconnect?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+    delete?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+    connect?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
+    update?: AssignmentUpdateWithWhereUniqueWithoutAuthorInput | AssignmentUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: AssignmentUpdateManyWithWhereWithoutAuthorInput | AssignmentUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: AssignmentScalarWhereInput | AssignmentScalarWhereInput[]
+  }
+
+  export type MaterialUncheckedUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<MaterialCreateWithoutAuthorInput, MaterialUncheckedCreateWithoutAuthorInput> | MaterialCreateWithoutAuthorInput[] | MaterialUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: MaterialCreateOrConnectWithoutAuthorInput | MaterialCreateOrConnectWithoutAuthorInput[]
+    upsert?: MaterialUpsertWithWhereUniqueWithoutAuthorInput | MaterialUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: MaterialCreateManyAuthorInputEnvelope
+    set?: MaterialWhereUniqueInput | MaterialWhereUniqueInput[]
+    disconnect?: MaterialWhereUniqueInput | MaterialWhereUniqueInput[]
+    delete?: MaterialWhereUniqueInput | MaterialWhereUniqueInput[]
+    connect?: MaterialWhereUniqueInput | MaterialWhereUniqueInput[]
+    update?: MaterialUpdateWithWhereUniqueWithoutAuthorInput | MaterialUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: MaterialUpdateManyWithWhereWithoutAuthorInput | MaterialUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: MaterialScalarWhereInput | MaterialScalarWhereInput[]
   }
 
   export type CourseMembershipCreateNestedManyWithoutCourseInput = {
@@ -17185,6 +17510,16 @@ export namespace Prisma {
     connect?: CourseWhereUniqueInput
   }
 
+  export type UserCreateNestedOneWithoutMaterialsAuthoredInput = {
+    create?: XOR<UserCreateWithoutMaterialsAuthoredInput, UserUncheckedCreateWithoutMaterialsAuthoredInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMaterialsAuthoredInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type NullableEnumUserRoleFieldUpdateOperationsInput = {
+    set?: $Enums.UserRole | null
+  }
+
   export type CourseUpdateOneRequiredWithoutMaterialsNestedInput = {
     create?: XOR<CourseCreateWithoutMaterialsInput, CourseUncheckedCreateWithoutMaterialsInput>
     connectOrCreate?: CourseCreateOrConnectWithoutMaterialsInput
@@ -17193,10 +17528,24 @@ export namespace Prisma {
     update?: XOR<XOR<CourseUpdateToOneWithWhereWithoutMaterialsInput, CourseUpdateWithoutMaterialsInput>, CourseUncheckedUpdateWithoutMaterialsInput>
   }
 
+  export type UserUpdateOneRequiredWithoutMaterialsAuthoredNestedInput = {
+    create?: XOR<UserCreateWithoutMaterialsAuthoredInput, UserUncheckedCreateWithoutMaterialsAuthoredInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMaterialsAuthoredInput
+    upsert?: UserUpsertWithoutMaterialsAuthoredInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMaterialsAuthoredInput, UserUpdateWithoutMaterialsAuthoredInput>, UserUncheckedUpdateWithoutMaterialsAuthoredInput>
+  }
+
   export type CourseCreateNestedOneWithoutAssignmentsInput = {
     create?: XOR<CourseCreateWithoutAssignmentsInput, CourseUncheckedCreateWithoutAssignmentsInput>
     connectOrCreate?: CourseCreateOrConnectWithoutAssignmentsInput
     connect?: CourseWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutAssignmentsAuthoredInput = {
+    create?: XOR<UserCreateWithoutAssignmentsAuthoredInput, UserUncheckedCreateWithoutAssignmentsAuthoredInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAssignmentsAuthoredInput
+    connect?: UserWhereUniqueInput
   }
 
   export type SubmissionCreateNestedManyWithoutAssignmentInput = {
@@ -17227,6 +17576,14 @@ export namespace Prisma {
     upsert?: CourseUpsertWithoutAssignmentsInput
     connect?: CourseWhereUniqueInput
     update?: XOR<XOR<CourseUpdateToOneWithWhereWithoutAssignmentsInput, CourseUpdateWithoutAssignmentsInput>, CourseUncheckedUpdateWithoutAssignmentsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutAssignmentsAuthoredNestedInput = {
+    create?: XOR<UserCreateWithoutAssignmentsAuthoredInput, UserUncheckedCreateWithoutAssignmentsAuthoredInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAssignmentsAuthoredInput
+    upsert?: UserUpsertWithoutAssignmentsAuthoredInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAssignmentsAuthoredInput, UserUpdateWithoutAssignmentsAuthoredInput>, UserUncheckedUpdateWithoutAssignmentsAuthoredInput>
   }
 
   export type SubmissionUpdateManyWithoutAssignmentNestedInput = {
@@ -17561,6 +17918,13 @@ export namespace Prisma {
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
+
+  export type NestedEnumUserRoleNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel> | null
+    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumUserRoleNullableFilter<$PrismaModel> | $Enums.UserRole | null
+  }
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -17583,6 +17947,16 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedEnumUserRoleNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel> | null
+    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumUserRoleNullableWithAggregatesFilter<$PrismaModel> | $Enums.UserRole | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumUserRoleNullableFilter<$PrismaModel>
+    _max?: NestedEnumUserRoleNullableFilter<$PrismaModel>
   }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -17782,6 +18156,76 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type AssignmentCreateWithoutAuthorInput = {
+    id?: string
+    title: string
+    description?: string | null
+    dueDate: Date | string
+    points?: number | null
+    files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: $Enums.UserRole | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    course: CourseCreateNestedOneWithoutAssignmentsInput
+    submissions?: SubmissionCreateNestedManyWithoutAssignmentInput
+  }
+
+  export type AssignmentUncheckedCreateWithoutAuthorInput = {
+    id?: string
+    title: string
+    description?: string | null
+    dueDate: Date | string
+    points?: number | null
+    files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: $Enums.UserRole | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    courseId: string
+    submissions?: SubmissionUncheckedCreateNestedManyWithoutAssignmentInput
+  }
+
+  export type AssignmentCreateOrConnectWithoutAuthorInput = {
+    where: AssignmentWhereUniqueInput
+    create: XOR<AssignmentCreateWithoutAuthorInput, AssignmentUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type AssignmentCreateManyAuthorInputEnvelope = {
+    data: AssignmentCreateManyAuthorInput | AssignmentCreateManyAuthorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type MaterialCreateWithoutAuthorInput = {
+    id?: string
+    title: string
+    description?: string | null
+    files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: $Enums.UserRole | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    course: CourseCreateNestedOneWithoutMaterialsInput
+  }
+
+  export type MaterialUncheckedCreateWithoutAuthorInput = {
+    id?: string
+    title: string
+    description?: string | null
+    files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: $Enums.UserRole | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    courseId: string
+  }
+
+  export type MaterialCreateOrConnectWithoutAuthorInput = {
+    where: MaterialWhereUniqueInput
+    create: XOR<MaterialCreateWithoutAuthorInput, MaterialUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type MaterialCreateManyAuthorInputEnvelope = {
+    data: MaterialCreateManyAuthorInput | MaterialCreateManyAuthorInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AccountUpsertWithWhereUniqueWithoutUserInput = {
     where: AccountWhereUniqueInput
     update: XOR<AccountUpdateWithoutUserInput, AccountUncheckedUpdateWithoutUserInput>
@@ -17956,6 +18400,70 @@ export namespace Prisma {
     studentId?: StringFilter<"Submission"> | string
   }
 
+  export type AssignmentUpsertWithWhereUniqueWithoutAuthorInput = {
+    where: AssignmentWhereUniqueInput
+    update: XOR<AssignmentUpdateWithoutAuthorInput, AssignmentUncheckedUpdateWithoutAuthorInput>
+    create: XOR<AssignmentCreateWithoutAuthorInput, AssignmentUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type AssignmentUpdateWithWhereUniqueWithoutAuthorInput = {
+    where: AssignmentWhereUniqueInput
+    data: XOR<AssignmentUpdateWithoutAuthorInput, AssignmentUncheckedUpdateWithoutAuthorInput>
+  }
+
+  export type AssignmentUpdateManyWithWhereWithoutAuthorInput = {
+    where: AssignmentScalarWhereInput
+    data: XOR<AssignmentUpdateManyMutationInput, AssignmentUncheckedUpdateManyWithoutAuthorInput>
+  }
+
+  export type AssignmentScalarWhereInput = {
+    AND?: AssignmentScalarWhereInput | AssignmentScalarWhereInput[]
+    OR?: AssignmentScalarWhereInput[]
+    NOT?: AssignmentScalarWhereInput | AssignmentScalarWhereInput[]
+    id?: StringFilter<"Assignment"> | string
+    title?: StringFilter<"Assignment"> | string
+    description?: StringNullableFilter<"Assignment"> | string | null
+    dueDate?: DateTimeFilter<"Assignment"> | Date | string
+    points?: IntNullableFilter<"Assignment"> | number | null
+    files?: JsonNullableFilter<"Assignment">
+    targetKelas?: EnumUserRoleNullableFilter<"Assignment"> | $Enums.UserRole | null
+    createdAt?: DateTimeFilter<"Assignment"> | Date | string
+    updatedAt?: DateTimeFilter<"Assignment"> | Date | string
+    courseId?: StringFilter<"Assignment"> | string
+    authorId?: StringFilter<"Assignment"> | string
+  }
+
+  export type MaterialUpsertWithWhereUniqueWithoutAuthorInput = {
+    where: MaterialWhereUniqueInput
+    update: XOR<MaterialUpdateWithoutAuthorInput, MaterialUncheckedUpdateWithoutAuthorInput>
+    create: XOR<MaterialCreateWithoutAuthorInput, MaterialUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type MaterialUpdateWithWhereUniqueWithoutAuthorInput = {
+    where: MaterialWhereUniqueInput
+    data: XOR<MaterialUpdateWithoutAuthorInput, MaterialUncheckedUpdateWithoutAuthorInput>
+  }
+
+  export type MaterialUpdateManyWithWhereWithoutAuthorInput = {
+    where: MaterialScalarWhereInput
+    data: XOR<MaterialUpdateManyMutationInput, MaterialUncheckedUpdateManyWithoutAuthorInput>
+  }
+
+  export type MaterialScalarWhereInput = {
+    AND?: MaterialScalarWhereInput | MaterialScalarWhereInput[]
+    OR?: MaterialScalarWhereInput[]
+    NOT?: MaterialScalarWhereInput | MaterialScalarWhereInput[]
+    id?: StringFilter<"Material"> | string
+    title?: StringFilter<"Material"> | string
+    description?: StringNullableFilter<"Material"> | string | null
+    files?: JsonNullableFilter<"Material">
+    targetKelas?: EnumUserRoleNullableFilter<"Material"> | $Enums.UserRole | null
+    createdAt?: DateTimeFilter<"Material"> | Date | string
+    updatedAt?: DateTimeFilter<"Material"> | Date | string
+    courseId?: StringFilter<"Material"> | string
+    authorId?: StringFilter<"Material"> | string
+  }
+
   export type CourseMembershipCreateWithoutCourseInput = {
     id?: string
     role: $Enums.UserRole
@@ -17985,8 +18493,10 @@ export namespace Prisma {
     title: string
     description?: string | null
     files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: $Enums.UserRole | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    author: UserCreateNestedOneWithoutMaterialsAuthoredInput
   }
 
   export type MaterialUncheckedCreateWithoutCourseInput = {
@@ -17994,8 +18504,10 @@ export namespace Prisma {
     title: string
     description?: string | null
     files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: $Enums.UserRole | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    authorId: string
   }
 
   export type MaterialCreateOrConnectWithoutCourseInput = {
@@ -18012,11 +18524,13 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    dueDate?: Date | string | null
+    dueDate: Date | string
     points?: number | null
     files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: $Enums.UserRole | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    author: UserCreateNestedOneWithoutAssignmentsAuthoredInput
     submissions?: SubmissionCreateNestedManyWithoutAssignmentInput
   }
 
@@ -18024,11 +18538,13 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    dueDate?: Date | string | null
+    dueDate: Date | string
     points?: number | null
     files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: $Enums.UserRole | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    authorId: string
     submissions?: SubmissionUncheckedCreateNestedManyWithoutAssignmentInput
   }
 
@@ -18104,19 +18620,6 @@ export namespace Prisma {
     data: XOR<MaterialUpdateManyMutationInput, MaterialUncheckedUpdateManyWithoutCourseInput>
   }
 
-  export type MaterialScalarWhereInput = {
-    AND?: MaterialScalarWhereInput | MaterialScalarWhereInput[]
-    OR?: MaterialScalarWhereInput[]
-    NOT?: MaterialScalarWhereInput | MaterialScalarWhereInput[]
-    id?: StringFilter<"Material"> | string
-    title?: StringFilter<"Material"> | string
-    description?: StringNullableFilter<"Material"> | string | null
-    files?: JsonNullableFilter<"Material">
-    createdAt?: DateTimeFilter<"Material"> | Date | string
-    updatedAt?: DateTimeFilter<"Material"> | Date | string
-    courseId?: StringFilter<"Material"> | string
-  }
-
   export type AssignmentUpsertWithWhereUniqueWithoutCourseInput = {
     where: AssignmentWhereUniqueInput
     update: XOR<AssignmentUpdateWithoutCourseInput, AssignmentUncheckedUpdateWithoutCourseInput>
@@ -18131,21 +18634,6 @@ export namespace Prisma {
   export type AssignmentUpdateManyWithWhereWithoutCourseInput = {
     where: AssignmentScalarWhereInput
     data: XOR<AssignmentUpdateManyMutationInput, AssignmentUncheckedUpdateManyWithoutCourseInput>
-  }
-
-  export type AssignmentScalarWhereInput = {
-    AND?: AssignmentScalarWhereInput | AssignmentScalarWhereInput[]
-    OR?: AssignmentScalarWhereInput[]
-    NOT?: AssignmentScalarWhereInput | AssignmentScalarWhereInput[]
-    id?: StringFilter<"Assignment"> | string
-    title?: StringFilter<"Assignment"> | string
-    description?: StringNullableFilter<"Assignment"> | string | null
-    dueDate?: DateTimeNullableFilter<"Assignment"> | Date | string | null
-    points?: IntNullableFilter<"Assignment"> | number | null
-    files?: JsonNullableFilter<"Assignment">
-    createdAt?: DateTimeFilter<"Assignment"> | Date | string
-    updatedAt?: DateTimeFilter<"Assignment"> | Date | string
-    courseId?: StringFilter<"Assignment"> | string
   }
 
   export type PostUpsertWithWhereUniqueWithoutCourseInput = {
@@ -18167,7 +18655,7 @@ export namespace Prisma {
   export type UserCreateWithoutCoursesInput = {
     id?: string
     name?: string | null
-    email?: string | null
+    email: string
     emailVerified?: Date | string | null
     image?: string | null
     role?: $Enums.UserRole
@@ -18176,12 +18664,14 @@ export namespace Prisma {
     posts?: PostCreateNestedManyWithoutAuthorInput
     comments?: CommentCreateNestedManyWithoutAuthorInput
     submissions?: SubmissionCreateNestedManyWithoutStudentInput
+    assignmentsAuthored?: AssignmentCreateNestedManyWithoutAuthorInput
+    materialsAuthored?: MaterialCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutCoursesInput = {
     id?: string
     name?: string | null
-    email?: string | null
+    email: string
     emailVerified?: Date | string | null
     image?: string | null
     role?: $Enums.UserRole
@@ -18190,6 +18680,8 @@ export namespace Prisma {
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
     comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
     submissions?: SubmissionUncheckedCreateNestedManyWithoutStudentInput
+    assignmentsAuthored?: AssignmentUncheckedCreateNestedManyWithoutAuthorInput
+    materialsAuthored?: MaterialUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutCoursesInput = {
@@ -18240,7 +18732,7 @@ export namespace Prisma {
   export type UserUpdateWithoutCoursesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -18249,12 +18741,14 @@ export namespace Prisma {
     posts?: PostUpdateManyWithoutAuthorNestedInput
     comments?: CommentUpdateManyWithoutAuthorNestedInput
     submissions?: SubmissionUpdateManyWithoutStudentNestedInput
+    assignmentsAuthored?: AssignmentUpdateManyWithoutAuthorNestedInput
+    materialsAuthored?: MaterialUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCoursesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -18263,6 +18757,8 @@ export namespace Prisma {
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
     comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
     submissions?: SubmissionUncheckedUpdateManyWithoutStudentNestedInput
+    assignmentsAuthored?: AssignmentUncheckedUpdateManyWithoutAuthorNestedInput
+    materialsAuthored?: MaterialUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type CourseUpsertWithoutMembersInput = {
@@ -18329,6 +18825,43 @@ export namespace Prisma {
     create: XOR<CourseCreateWithoutMaterialsInput, CourseUncheckedCreateWithoutMaterialsInput>
   }
 
+  export type UserCreateWithoutMaterialsAuthoredInput = {
+    id?: string
+    name?: string | null
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    role?: $Enums.UserRole
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    courses?: CourseMembershipCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutAuthorInput
+    comments?: CommentCreateNestedManyWithoutAuthorInput
+    submissions?: SubmissionCreateNestedManyWithoutStudentInput
+    assignmentsAuthored?: AssignmentCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserUncheckedCreateWithoutMaterialsAuthoredInput = {
+    id?: string
+    name?: string | null
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    role?: $Enums.UserRole
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    courses?: CourseMembershipUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    submissions?: SubmissionUncheckedCreateNestedManyWithoutStudentInput
+    assignmentsAuthored?: AssignmentUncheckedCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserCreateOrConnectWithoutMaterialsAuthoredInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutMaterialsAuthoredInput, UserUncheckedCreateWithoutMaterialsAuthoredInput>
+  }
+
   export type CourseUpsertWithoutMaterialsInput = {
     update: XOR<CourseUpdateWithoutMaterialsInput, CourseUncheckedUpdateWithoutMaterialsInput>
     create: XOR<CourseCreateWithoutMaterialsInput, CourseUncheckedCreateWithoutMaterialsInput>
@@ -18364,6 +18897,49 @@ export namespace Prisma {
     posts?: PostUncheckedUpdateManyWithoutCourseNestedInput
   }
 
+  export type UserUpsertWithoutMaterialsAuthoredInput = {
+    update: XOR<UserUpdateWithoutMaterialsAuthoredInput, UserUncheckedUpdateWithoutMaterialsAuthoredInput>
+    create: XOR<UserCreateWithoutMaterialsAuthoredInput, UserUncheckedCreateWithoutMaterialsAuthoredInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutMaterialsAuthoredInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutMaterialsAuthoredInput, UserUncheckedUpdateWithoutMaterialsAuthoredInput>
+  }
+
+  export type UserUpdateWithoutMaterialsAuthoredInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    courses?: CourseMembershipUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutAuthorNestedInput
+    comments?: CommentUpdateManyWithoutAuthorNestedInput
+    submissions?: SubmissionUpdateManyWithoutStudentNestedInput
+    assignmentsAuthored?: AssignmentUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutMaterialsAuthoredInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    courses?: CourseMembershipUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    submissions?: SubmissionUncheckedUpdateManyWithoutStudentNestedInput
+    assignmentsAuthored?: AssignmentUncheckedUpdateManyWithoutAuthorNestedInput
+  }
+
   export type CourseCreateWithoutAssignmentsInput = {
     id?: string
     name: string
@@ -18391,6 +18967,43 @@ export namespace Prisma {
   export type CourseCreateOrConnectWithoutAssignmentsInput = {
     where: CourseWhereUniqueInput
     create: XOR<CourseCreateWithoutAssignmentsInput, CourseUncheckedCreateWithoutAssignmentsInput>
+  }
+
+  export type UserCreateWithoutAssignmentsAuthoredInput = {
+    id?: string
+    name?: string | null
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    role?: $Enums.UserRole
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    courses?: CourseMembershipCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutAuthorInput
+    comments?: CommentCreateNestedManyWithoutAuthorInput
+    submissions?: SubmissionCreateNestedManyWithoutStudentInput
+    materialsAuthored?: MaterialCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserUncheckedCreateWithoutAssignmentsAuthoredInput = {
+    id?: string
+    name?: string | null
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    role?: $Enums.UserRole
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    courses?: CourseMembershipUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    submissions?: SubmissionUncheckedCreateNestedManyWithoutStudentInput
+    materialsAuthored?: MaterialUncheckedCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserCreateOrConnectWithoutAssignmentsAuthoredInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAssignmentsAuthoredInput, UserUncheckedCreateWithoutAssignmentsAuthoredInput>
   }
 
   export type SubmissionCreateWithoutAssignmentInput = {
@@ -18458,6 +19071,49 @@ export namespace Prisma {
     posts?: PostUncheckedUpdateManyWithoutCourseNestedInput
   }
 
+  export type UserUpsertWithoutAssignmentsAuthoredInput = {
+    update: XOR<UserUpdateWithoutAssignmentsAuthoredInput, UserUncheckedUpdateWithoutAssignmentsAuthoredInput>
+    create: XOR<UserCreateWithoutAssignmentsAuthoredInput, UserUncheckedCreateWithoutAssignmentsAuthoredInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAssignmentsAuthoredInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAssignmentsAuthoredInput, UserUncheckedUpdateWithoutAssignmentsAuthoredInput>
+  }
+
+  export type UserUpdateWithoutAssignmentsAuthoredInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    courses?: CourseMembershipUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutAuthorNestedInput
+    comments?: CommentUpdateManyWithoutAuthorNestedInput
+    submissions?: SubmissionUpdateManyWithoutStudentNestedInput
+    materialsAuthored?: MaterialUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAssignmentsAuthoredInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    courses?: CourseMembershipUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    submissions?: SubmissionUncheckedUpdateManyWithoutStudentNestedInput
+    materialsAuthored?: MaterialUncheckedUpdateManyWithoutAuthorNestedInput
+  }
+
   export type SubmissionUpsertWithWhereUniqueWithoutAssignmentInput = {
     where: SubmissionWhereUniqueInput
     update: XOR<SubmissionUpdateWithoutAssignmentInput, SubmissionUncheckedUpdateWithoutAssignmentInput>
@@ -18478,24 +19134,28 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    dueDate?: Date | string | null
+    dueDate: Date | string
     points?: number | null
     files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: $Enums.UserRole | null
     createdAt?: Date | string
     updatedAt?: Date | string
     course: CourseCreateNestedOneWithoutAssignmentsInput
+    author: UserCreateNestedOneWithoutAssignmentsAuthoredInput
   }
 
   export type AssignmentUncheckedCreateWithoutSubmissionsInput = {
     id?: string
     title: string
     description?: string | null
-    dueDate?: Date | string | null
+    dueDate: Date | string
     points?: number | null
     files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: $Enums.UserRole | null
     createdAt?: Date | string
     updatedAt?: Date | string
     courseId: string
+    authorId: string
   }
 
   export type AssignmentCreateOrConnectWithoutSubmissionsInput = {
@@ -18506,7 +19166,7 @@ export namespace Prisma {
   export type UserCreateWithoutSubmissionsInput = {
     id?: string
     name?: string | null
-    email?: string | null
+    email: string
     emailVerified?: Date | string | null
     image?: string | null
     role?: $Enums.UserRole
@@ -18515,12 +19175,14 @@ export namespace Prisma {
     courses?: CourseMembershipCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutAuthorInput
     comments?: CommentCreateNestedManyWithoutAuthorInput
+    assignmentsAuthored?: AssignmentCreateNestedManyWithoutAuthorInput
+    materialsAuthored?: MaterialCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutSubmissionsInput = {
     id?: string
     name?: string | null
-    email?: string | null
+    email: string
     emailVerified?: Date | string | null
     image?: string | null
     role?: $Enums.UserRole
@@ -18529,6 +19191,8 @@ export namespace Prisma {
     courses?: CourseMembershipUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
     comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    assignmentsAuthored?: AssignmentUncheckedCreateNestedManyWithoutAuthorInput
+    materialsAuthored?: MaterialUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutSubmissionsInput = {
@@ -18551,24 +19215,28 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
     files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: NullableEnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     course?: CourseUpdateOneRequiredWithoutAssignmentsNestedInput
+    author?: UserUpdateOneRequiredWithoutAssignmentsAuthoredNestedInput
   }
 
   export type AssignmentUncheckedUpdateWithoutSubmissionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
     files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: NullableEnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     courseId?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserUpsertWithoutSubmissionsInput = {
@@ -18585,7 +19253,7 @@ export namespace Prisma {
   export type UserUpdateWithoutSubmissionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -18594,12 +19262,14 @@ export namespace Prisma {
     courses?: CourseMembershipUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
     comments?: CommentUpdateManyWithoutAuthorNestedInput
+    assignmentsAuthored?: AssignmentUpdateManyWithoutAuthorNestedInput
+    materialsAuthored?: MaterialUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSubmissionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -18608,6 +19278,8 @@ export namespace Prisma {
     courses?: CourseMembershipUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
     comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    assignmentsAuthored?: AssignmentUncheckedUpdateManyWithoutAuthorNestedInput
+    materialsAuthored?: MaterialUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type CourseCreateWithoutPostsInput = {
@@ -18642,7 +19314,7 @@ export namespace Prisma {
   export type UserCreateWithoutPostsInput = {
     id?: string
     name?: string | null
-    email?: string | null
+    email: string
     emailVerified?: Date | string | null
     image?: string | null
     role?: $Enums.UserRole
@@ -18651,12 +19323,14 @@ export namespace Prisma {
     courses?: CourseMembershipCreateNestedManyWithoutUserInput
     comments?: CommentCreateNestedManyWithoutAuthorInput
     submissions?: SubmissionCreateNestedManyWithoutStudentInput
+    assignmentsAuthored?: AssignmentCreateNestedManyWithoutAuthorInput
+    materialsAuthored?: MaterialCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutPostsInput = {
     id?: string
     name?: string | null
-    email?: string | null
+    email: string
     emailVerified?: Date | string | null
     image?: string | null
     role?: $Enums.UserRole
@@ -18665,6 +19339,8 @@ export namespace Prisma {
     courses?: CourseMembershipUncheckedCreateNestedManyWithoutUserInput
     comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
     submissions?: SubmissionUncheckedCreateNestedManyWithoutStudentInput
+    assignmentsAuthored?: AssignmentUncheckedCreateNestedManyWithoutAuthorInput
+    materialsAuthored?: MaterialUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutPostsInput = {
@@ -18747,7 +19423,7 @@ export namespace Prisma {
   export type UserUpdateWithoutPostsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -18756,12 +19432,14 @@ export namespace Prisma {
     courses?: CourseMembershipUpdateManyWithoutUserNestedInput
     comments?: CommentUpdateManyWithoutAuthorNestedInput
     submissions?: SubmissionUpdateManyWithoutStudentNestedInput
+    assignmentsAuthored?: AssignmentUpdateManyWithoutAuthorNestedInput
+    materialsAuthored?: MaterialUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPostsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -18770,6 +19448,8 @@ export namespace Prisma {
     courses?: CourseMembershipUncheckedUpdateManyWithoutUserNestedInput
     comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
     submissions?: SubmissionUncheckedUpdateManyWithoutStudentNestedInput
+    assignmentsAuthored?: AssignmentUncheckedUpdateManyWithoutAuthorNestedInput
+    materialsAuthored?: MaterialUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type CommentUpsertWithWhereUniqueWithoutPostInput = {
@@ -18816,7 +19496,7 @@ export namespace Prisma {
   export type UserCreateWithoutCommentsInput = {
     id?: string
     name?: string | null
-    email?: string | null
+    email: string
     emailVerified?: Date | string | null
     image?: string | null
     role?: $Enums.UserRole
@@ -18825,12 +19505,14 @@ export namespace Prisma {
     courses?: CourseMembershipCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutAuthorInput
     submissions?: SubmissionCreateNestedManyWithoutStudentInput
+    assignmentsAuthored?: AssignmentCreateNestedManyWithoutAuthorInput
+    materialsAuthored?: MaterialCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutCommentsInput = {
     id?: string
     name?: string | null
-    email?: string | null
+    email: string
     emailVerified?: Date | string | null
     image?: string | null
     role?: $Enums.UserRole
@@ -18839,6 +19521,8 @@ export namespace Prisma {
     courses?: CourseMembershipUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
     submissions?: SubmissionUncheckedCreateNestedManyWithoutStudentInput
+    assignmentsAuthored?: AssignmentUncheckedCreateNestedManyWithoutAuthorInput
+    materialsAuthored?: MaterialUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutCommentsInput = {
@@ -18891,7 +19575,7 @@ export namespace Prisma {
   export type UserUpdateWithoutCommentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -18900,12 +19584,14 @@ export namespace Prisma {
     courses?: CourseMembershipUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
     submissions?: SubmissionUpdateManyWithoutStudentNestedInput
+    assignmentsAuthored?: AssignmentUpdateManyWithoutAuthorNestedInput
+    materialsAuthored?: MaterialUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -18914,12 +19600,14 @@ export namespace Prisma {
     courses?: CourseMembershipUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
     submissions?: SubmissionUncheckedUpdateManyWithoutStudentNestedInput
+    assignmentsAuthored?: AssignmentUncheckedUpdateManyWithoutAuthorNestedInput
+    materialsAuthored?: MaterialUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
     id?: string
     name?: string | null
-    email?: string | null
+    email: string
     emailVerified?: Date | string | null
     image?: string | null
     role?: $Enums.UserRole
@@ -18928,12 +19616,14 @@ export namespace Prisma {
     posts?: PostCreateNestedManyWithoutAuthorInput
     comments?: CommentCreateNestedManyWithoutAuthorInput
     submissions?: SubmissionCreateNestedManyWithoutStudentInput
+    assignmentsAuthored?: AssignmentCreateNestedManyWithoutAuthorInput
+    materialsAuthored?: MaterialCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
     id?: string
     name?: string | null
-    email?: string | null
+    email: string
     emailVerified?: Date | string | null
     image?: string | null
     role?: $Enums.UserRole
@@ -18942,6 +19632,8 @@ export namespace Prisma {
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
     comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
     submissions?: SubmissionUncheckedCreateNestedManyWithoutStudentInput
+    assignmentsAuthored?: AssignmentUncheckedCreateNestedManyWithoutAuthorInput
+    materialsAuthored?: MaterialUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -18963,7 +19655,7 @@ export namespace Prisma {
   export type UserUpdateWithoutAccountsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -18972,12 +19664,14 @@ export namespace Prisma {
     posts?: PostUpdateManyWithoutAuthorNestedInput
     comments?: CommentUpdateManyWithoutAuthorNestedInput
     submissions?: SubmissionUpdateManyWithoutStudentNestedInput
+    assignmentsAuthored?: AssignmentUpdateManyWithoutAuthorNestedInput
+    materialsAuthored?: MaterialUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -18986,12 +19680,14 @@ export namespace Prisma {
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
     comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
     submissions?: SubmissionUncheckedUpdateManyWithoutStudentNestedInput
+    assignmentsAuthored?: AssignmentUncheckedUpdateManyWithoutAuthorNestedInput
+    materialsAuthored?: MaterialUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
     id?: string
     name?: string | null
-    email?: string | null
+    email: string
     emailVerified?: Date | string | null
     image?: string | null
     role?: $Enums.UserRole
@@ -19000,12 +19696,14 @@ export namespace Prisma {
     posts?: PostCreateNestedManyWithoutAuthorInput
     comments?: CommentCreateNestedManyWithoutAuthorInput
     submissions?: SubmissionCreateNestedManyWithoutStudentInput
+    assignmentsAuthored?: AssignmentCreateNestedManyWithoutAuthorInput
+    materialsAuthored?: MaterialCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
     id?: string
     name?: string | null
-    email?: string | null
+    email: string
     emailVerified?: Date | string | null
     image?: string | null
     role?: $Enums.UserRole
@@ -19014,6 +19712,8 @@ export namespace Prisma {
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
     comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
     submissions?: SubmissionUncheckedCreateNestedManyWithoutStudentInput
+    assignmentsAuthored?: AssignmentUncheckedCreateNestedManyWithoutAuthorInput
+    materialsAuthored?: MaterialUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -19035,7 +19735,7 @@ export namespace Prisma {
   export type UserUpdateWithoutSessionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -19044,12 +19744,14 @@ export namespace Prisma {
     posts?: PostUpdateManyWithoutAuthorNestedInput
     comments?: CommentUpdateManyWithoutAuthorNestedInput
     submissions?: SubmissionUpdateManyWithoutStudentNestedInput
+    assignmentsAuthored?: AssignmentUpdateManyWithoutAuthorNestedInput
+    materialsAuthored?: MaterialUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -19058,6 +19760,8 @@ export namespace Prisma {
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
     comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
     submissions?: SubmissionUncheckedUpdateManyWithoutStudentNestedInput
+    assignmentsAuthored?: AssignmentUncheckedUpdateManyWithoutAuthorNestedInput
+    materialsAuthored?: MaterialUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type AccountCreateManyUserInput = {
@@ -19112,6 +19816,30 @@ export namespace Prisma {
     grade?: number | null
     feedback?: string | null
     assignmentId: string
+  }
+
+  export type AssignmentCreateManyAuthorInput = {
+    id?: string
+    title: string
+    description?: string | null
+    dueDate: Date | string
+    points?: number | null
+    files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: $Enums.UserRole | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    courseId: string
+  }
+
+  export type MaterialCreateManyAuthorInput = {
+    id?: string
+    title: string
+    description?: string | null
+    files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: $Enums.UserRole | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    courseId: string
   }
 
   export type AccountUpdateWithoutUserInput = {
@@ -19278,6 +20006,80 @@ export namespace Prisma {
     assignmentId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type AssignmentUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    points?: NullableIntFieldUpdateOperationsInput | number | null
+    files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: NullableEnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    course?: CourseUpdateOneRequiredWithoutAssignmentsNestedInput
+    submissions?: SubmissionUpdateManyWithoutAssignmentNestedInput
+  }
+
+  export type AssignmentUncheckedUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    points?: NullableIntFieldUpdateOperationsInput | number | null
+    files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: NullableEnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    submissions?: SubmissionUncheckedUpdateManyWithoutAssignmentNestedInput
+  }
+
+  export type AssignmentUncheckedUpdateManyWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    points?: NullableIntFieldUpdateOperationsInput | number | null
+    files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: NullableEnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    courseId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type MaterialUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: NullableEnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    course?: CourseUpdateOneRequiredWithoutMaterialsNestedInput
+  }
+
+  export type MaterialUncheckedUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: NullableEnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    courseId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type MaterialUncheckedUpdateManyWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: NullableEnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    courseId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type CourseMembershipCreateManyCourseInput = {
     id?: string
     userId: string
@@ -19290,19 +20092,23 @@ export namespace Prisma {
     title: string
     description?: string | null
     files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: $Enums.UserRole | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    authorId: string
   }
 
   export type AssignmentCreateManyCourseInput = {
     id?: string
     title: string
     description?: string | null
-    dueDate?: Date | string | null
+    dueDate: Date | string
     points?: number | null
     files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: $Enums.UserRole | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    authorId: string
   }
 
   export type PostCreateManyCourseInput = {
@@ -19340,8 +20146,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: NullableEnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    author?: UserUpdateOneRequiredWithoutMaterialsAuthoredNestedInput
   }
 
   export type MaterialUncheckedUpdateWithoutCourseInput = {
@@ -19349,8 +20157,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: NullableEnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    authorId?: StringFieldUpdateOperationsInput | string
   }
 
   export type MaterialUncheckedUpdateManyWithoutCourseInput = {
@@ -19358,19 +20168,23 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: NullableEnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    authorId?: StringFieldUpdateOperationsInput | string
   }
 
   export type AssignmentUpdateWithoutCourseInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
     files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: NullableEnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    author?: UserUpdateOneRequiredWithoutAssignmentsAuthoredNestedInput
     submissions?: SubmissionUpdateManyWithoutAssignmentNestedInput
   }
 
@@ -19378,11 +20192,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
     files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: NullableEnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    authorId?: StringFieldUpdateOperationsInput | string
     submissions?: SubmissionUncheckedUpdateManyWithoutAssignmentNestedInput
   }
 
@@ -19390,11 +20206,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
     files?: NullableJsonNullValueInput | InputJsonValue
+    targetKelas?: NullableEnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    authorId?: StringFieldUpdateOperationsInput | string
   }
 
   export type PostUpdateWithoutCourseInput = {

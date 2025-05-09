@@ -17,6 +17,7 @@ import {
   MessageSquareMoreIcon,
   UsersIcon,
   FileTextIcon,
+  SquarePlusIcon
 } from "lucide-react"
 import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
@@ -29,6 +30,12 @@ import Image from "next/image"
 import type { UserRole } from "@/prisma/app/generated/prisma/client"
 
 interface MenuItem {
+  name: string
+  href: string
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
+}
+
+interface MenuGuru {
   name: string
   href: string
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
@@ -67,19 +74,22 @@ export default function Navbar({ children }: NavbarProps) {
   const userRole = session?.user?.role || ("VISITOR" as UserRole)
 
   // Get menu items based on role
-  const getMenuItems = (): MenuItem[] => {
-    const commonItems: MenuItem[] = [
-      { name: "Dashboard", href: "/", icon: HomeIcon },
-      { name: "Pengumuman", href: "/pengumuman", icon: NewspaperIcon },
-      { name: "Tugas", href: "/tugas", icon: ClipboardListIcon },
-      { name: "Jadwal", href: "/jadwal", icon: CalendarIcon },
-      { name: "Diskusi", href: "/diskusi", icon: MessageSquareMoreIcon },
-      { name: "Daftar Siswa", href: "/siswa", icon: UsersIcon }
-    ]
-    return commonItems
-  }
+  const getMenuItems = (): MenuItem[] => [
+    { name: "Dashboard", href: "/", icon: HomeIcon },
+    { name: "Pengumuman", href: "/pengumuman", icon: NewspaperIcon },
+    { name: "Tugas", href: "/tugas", icon: ClipboardListIcon },
+    { name: "Jadwal", href: "/jadwal", icon: CalendarIcon },
+    { name: "Diskusi", href: "/diskusi", icon: MessageSquareMoreIcon },
+    { name: "Daftar Siswa", href: "/siswa", icon: UsersIcon }
+  ]
+
+  const getMenuGuru = (): MenuGuru[] => [
+    { name: "Daftar Tugas", href: "/tugas/nilai", icon: FileTextIcon },
+    { name: "Tambah", href: "/tambah", icon: SquarePlusIcon },
+  ]
 
   const menuItems = getMenuItems()
+  const menuGuru = getMenuGuru()
 
   // Check if link is active
   const isActiveLink = (href: string): boolean => {
@@ -119,25 +129,31 @@ export default function Navbar({ children }: NavbarProps) {
 
       {/* Konten spesifik per-role */}
       {userRole === "INSTRUCTOR" && (
-        <div className="px-3">
-          <div className="px-6 py-3 mt-6">
+        <div className="px-3 space-y-1">
+          <div className="px-3 py-3 mt-6">
             <div className="text-xs uppercase font-semibold text-black/70 tracking-wider">
               Menu Khusus - {userRole}
             </div>
           </div>
-          <Link
-            href="/tugas/nilai"
-            onClick={() => isMobile && setIsOpen(false)}
-            className={cn(
-              "flex items-center px-3 py-2 rounded-md text-sm font-medium",
-              isActiveLink("/tugas/nilai")
-                ? "bg-black/20 text-black"
-                : "text-black/80 hover:bg-black hover:text-primary-foreground",
-            )}
-          >
-            <FileTextIcon className="mr-3 h-5 w-5" />
-            Daftar Tugas
-          </Link>
+          {menuGuru.map((item) => {
+          const Icon = item.icon
+          return (
+            <Link
+              key={item.name}
+              href={item.href}
+              onClick={() => isMobile && setIsOpen(false)}
+              className={cn(
+                "flex items-center px-3 py-2 rounded-md text-sm font-medium",
+                isActiveLink(item.href)
+                  ? "bg-black/20 text-black"
+                  : "text-black/80 hover:bg-black hover:text-primary-foreground",
+              )}
+            >
+              <Icon className="mr-3 h-5 w-5" />
+              {item.name}
+            </Link>
+          )
+        })}
         </div>
       )}
     </div>
