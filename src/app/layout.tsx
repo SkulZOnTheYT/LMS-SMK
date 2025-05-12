@@ -21,9 +21,9 @@ export default function RootLayout({
     <html lang="en">
       <body className="flex min-h-screen flex-col">
         <Providers>
-        <Suspense fallback={<div>Loading notifier...</div>}>
-          <AuthNotifier />
-        </Suspense>
+          <Suspense fallback={<div>Loading notifier...</div>}>
+            <AuthNotifier />
+          </Suspense>
           {children}
         </Providers>
       </body>
