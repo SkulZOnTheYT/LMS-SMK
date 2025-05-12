@@ -32,12 +32,7 @@ export default async function StudentsPage() {
   if (!user) {
     redirect("/login")
   }
-
-  // Only allow instructors to view the students list
-  if (user.role !== "INSTRUCTOR") {
-    redirect("/dashboard")
-  }
-
+  
   // Fetch all instructors
   const instructors = await prisma.user.findMany({
     where: {

@@ -7,8 +7,8 @@ import { PrismaClient, UserRole } from './src/prisma/app/generated/prisma/client
 const prisma = new PrismaClient();
 
 async function main() {
-  const userIdToUpdate = 'cmakec7az0000en0ufomdhe64'; // Ganti dengan ID user yang bermasalah
-  const newRoleToSet = UserRole.INSTRUCTOR; // Ganti dengan salah satu role dari enum Anda
+  const userIdToUpdate = 'cmakg71q90000i60v0bznfaqq'; // Ganti dengan ID user yang bermasalah
+  const newRoleToSet = UserRole.TKJ1; // Ganti dengan salah satu role dari enum Anda
 
   console.log(`Mencoba update user ID: ${userIdToUpdate} ke role: ${newRoleToSet}`);
 
