@@ -5,6 +5,20 @@ import { prisma } from "@/app/prisma"
 import Navbar from "@/components/navbar"
 import CreateContentPage from "@/components/content"
 
+async function getCoursesForSelection() {
+  const courses = await prisma.course.findMany({
+    select: {
+      id: true,   // Ini adalah CUID
+      name: true,
+      // courseCode: true, // Jika Anda ingin menampilkan kode kelas juga
+    },
+    orderBy: {
+      name: 'asc', // Urutkan berdasarkan nama
+    },
+  });
+  return courses;
+}
+
 export default async function CreatePage() {
   const session = await getServerSession()
 
@@ -26,21 +40,7 @@ export default async function CreatePage() {
     redirect("/?toast=unauthorized_access")
   }
 
-  // Fetch available courses for this instructor
-  const courses = await prisma.course.findMany({
-    where: {
-      members: {
-        some: {
-          userId: user.id,
-          role: "INSTRUCTOR",
-        },
-      },
-    },
-    select: {
-      id: true,
-      name: true,
-    },
-  })
+  const courses = await getCoursesForSelection();
 
   return (
     <Navbar>

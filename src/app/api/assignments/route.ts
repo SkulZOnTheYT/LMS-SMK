@@ -1,40 +1,62 @@
 // src/app/api/assignments/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import * as z from 'zod';
-import { prisma } from '@/app/prisma'; // Pastikan path ke Prisma Client Anda benar
+import { prisma } from '@/app/prisma'; // Sekarang ini seharusnya mengimpor instance yang sudah diperbaiki
+import { getServerSession } from "next-auth"; // Jika Anda menggunakan NextAuth
 
-// Skema payload yang diperbarui untuk mencocokkan data dari frontend
-// termasuk detail file dari S3
+// Definisikan enum UserRole untuk validasi Zod, harus sinkron dengan Prisma
+const UserRoleZodEnum = z.enum(["VISITOR", "TKJ1", "TKJ2", "TKJ3", "INSTRUCTOR"]);
+
 const assignmentPayloadSchema = z.object({
-  title: z.string().min(3, "Judul tugas harus minimal 3 karakter."),
-  description: z.string().min(10, "Deskripsi tugas harus minimal 10 karakter."),
-  courseId: z.string({ required_error: "Silakan pilih kelas." }), // ID dari tabel Course
-  dueDate: z.string().datetime(), // Frontend mengirimkan format ISO string
-  points: z.number().min(0).optional(),
+  title: z.string().min(1, "Judul tugas tidak boleh kosong."),
+  description: z.string().optional(),
+  courseId: z.string().cuid("Format ID kelas tidak valid."),
+  dueDate: z.string().datetime("Format tanggal pengumpulan tidak valid."),
+  points: z.number().int().min(0).optional(),
   files: z.array(z.object({
-    url: z.string().url("URL file S3 tidak valid."),
-    name: z.string(),             // Nama file asli
-    s3Key: z.string().optional(), // S3 object key
-    type: z.string().optional(),  // Tipe MIME
-    size: z.number().optional(),  // Ukuran file dalam bytes
+    url: z.string().url("URL file tidak valid."), // Nanti akan jadi URL S3 atau placeholder
+    name: z.string(),
+    s3Key: z.string().optional(),
+    type: z.string().optional(),
+    size: z.number().optional(),
   })).optional(),
+  targetKelas: UserRoleZodEnum.optional(),
 });
 
 export async function POST(req: NextRequest) {
+  const session = await getServerSession(); // Dapatkan sesi pengguna
+
+  if (!session || !session.user) {
+    return NextResponse.json({ error: "Tidak terautentikasi." }, { status: 401 });
+  }
+
+  const user = await prisma.user.findUnique({
+      where: { email: session.user.email ?? undefined },
+      select: {
+        id: true,
+        role: true,
+      },
+    })
+
+  const authorId = session.user.id;
+  if (!user || user.role !== "INSTRUCTOR") { // Asumsikan UserRole ada di tipe session.user
+    console.log(`Autorisasi gagal: User role adalah '${user?.role}', bukan INSTRUCTOR.`);
+    return NextResponse.json({ error: "Anda tidak diizinkan membuat tugas." }, { status: 403 }); 
+  }
+
   try {
     const body = await req.json();
     const validation = assignmentPayloadSchema.safeParse(body);
 
     if (!validation.success) {
-      return NextResponse.json({ 
-        error: "Input tidak valid", 
-        details: validation.error.flatten().fieldErrors 
+      return NextResponse.json({
+        error: "Input tidak valid",
+        details: validation.error.flatten().fieldErrors
       }, { status: 400 });
     }
 
-    const { title, description, courseId, dueDate, points } = validation.data;
+    const { title, description, courseId, dueDate, points, files, targetKelas } = validation.data;
 
-    // Opsional: Validasi apakah courseId ada di database
     const courseExists = await prisma.course.findUnique({
       where: { id: courseId },
     });
@@ -46,27 +68,26 @@ export async function POST(req: NextRequest) {
       data: {
         title,
         description,
-        dueDate: new Date(dueDate), // Konversi string ISO ke objek Date
+        dueDate: new Date(dueDate),
         points,
-        course: { // Menghubungkan ke Course yang ada
-          connect: { id: courseId },
-        },
-        author: { // Tambahkan author yang valid
-          connect: { id: 'author_id_dari_sesi' }, // Ganti dengan ID pengguna yang valid dari sesi
-        },
+        files: files && files.length > 0 ? files : undefined, // Simpan array file sebagai JSON
+        targetKelas,
+        course: { connect: { id: courseId } },
+        author: { connect: { id: authorId } }, // Gunakan authorId dari sesi
       },
+      include: {
+        author: { select: { id:true, name: true } },
+        course: { select: { id:true, name: true } },
+      }
     });
 
-    return NextResponse.json({ 
-      message: "Tugas berhasil dibuat dan disimpan ke database.", 
-      assignment: newAssignment 
+    return NextResponse.json({
+      message: "Tugas berhasil dibuat.",
+      assignment: newAssignment
     }, { status: 201 });
 
   } catch (error) {
     console.error("Gagal membuat tugas di database:", error);
-    if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: "Kesalahan validasi", details: error.flatten().fieldErrors }, { status: 400 });
-    }
     return NextResponse.json({ error: "Gagal menyimpan tugas ke database." }, { status: 500 });
   }
 }

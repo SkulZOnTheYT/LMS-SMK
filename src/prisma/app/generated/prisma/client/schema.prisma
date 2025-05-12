@@ -1,11 +1,11 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "app/generated/prisma/client"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-}
-
-generator client {
-  provider = "prisma-client-js"
-  output   = "app/generated/prisma/client" // Pastikan path output ini sesuai dengan proyek Anda
 }
 
 model User {
@@ -14,116 +14,99 @@ model User {
   email               String             @unique
   emailVerified       DateTime?
   image               String?
+  role                UserRole           @default(VISITOR)
   accounts            Account[]
-  sessions            Session[]
-  role                UserRole           @default(VISITOR) // Enum untuk role, termasuk kelas siswa
-  courses             CourseMembership[]
-  posts               Post[]
+  assignmentsAuthored Assignment[]       @relation("AssignmentAuthor")
   comments            Comment[]
+  courses             CourseMembership[]
+  materialsAuthored   Material[]         @relation("MaterialAuthor")
+  posts               Post[]
+  sessions            Session[]
   submissions         Submission[]
-  assignmentsAuthored Assignment[]       @relation("AssignmentAuthor") // Relasi ke Assignment yang dibuat
-  materialsAuthored   Material[]         @relation("MaterialAuthor") // Relasi ke Material yang dibuat
-}
-
-enum UserRole {
-  VISITOR
-  TKJ1
-  TKJ2
-  TKJ3
-  INSTRUCTOR
 }
 
 model Course {
   id          String             @id @default(cuid())
   name        String
   description String?
-  courseCode  String?            @unique // Kode unik untuk join kelas
+  courseCode  String?            @unique
   createdAt   DateTime           @default(now())
   updatedAt   DateTime           @updatedAt
+  assignments Assignment[]
   members     CourseMembership[]
   materials   Material[]
-  assignments Assignment[]
-  posts       Post[] // Post forum khusus kelas ini
+  posts       Post[]
 }
 
-// Tabel penghubung User dan Course (Many-to-Many)
 model CourseMembership {
   id       String   @id @default(cuid())
   userId   String
   courseId String
-  role     UserRole // Peran user di kelas ini (bisa INSTRUCTOR atau role kelas siswa)
+  role     UserRole
   joinedAt DateTime @default(now())
-  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   course   Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([userId, courseId]) // Pastikan user hanya join sekali per kelas
+  @@unique([userId, courseId])
 }
 
 model Material {
   id          String    @id @default(cuid())
   title       String
   description String?
-  files       Json? // Bisa menyimpan array URL/path file
-  targetKelas UserRole? // BARU: Target kelas spesifik, menggunakan enum UserRole
+  files       Json?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-
-  courseId String
-  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
-
-  authorId String // BARU: ID dari User (Instruktur) yang membuat materi
-  author   User   @relation("MaterialAuthor", fields: [authorId], references: [id], onDelete: Cascade) // BARU: Relasi ke User
+  courseId    String
+  authorId    String
+  targetKelas UserRole?
+  author      User      @relation("MaterialAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  course      Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
 }
 
 model Assignment {
-  id          String    @id @default(cuid())
+  id          String       @id @default(cuid())
   title       String
   description String?
-  dueDate     DateTime // DIUBAH: Menjadi wajib (tidak ada '?')
-  points      Int? // Poin maksimal (opsional)
-  files       Json? // File soal/lampiran (sudah ada)
-  targetKelas UserRole? // BARU: Target kelas spesifik, menggunakan enum UserRole
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  courseId String
-  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
-
-  authorId String // BARU: ID dari User (Instruktur) yang membuat assignment
-  author   User   @relation("AssignmentAuthor", fields: [authorId], references: [id], onDelete: Cascade) // BARU: Relasi ke User
-
+  dueDate     DateTime
+  points      Int?
+  files       Json?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  courseId    String
+  authorId    String
+  targetKelas UserRole?
+  author      User         @relation("AssignmentAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  course      Course       @relation(fields: [courseId], references: [id], onDelete: Cascade)
   submissions Submission[]
 }
 
 model Submission {
-  id          String   @id @default(cuid())
-  submittedAt DateTime @default(now())
-  files       Json? // File jawaban yang diupload
-  textContent String? // Jawaban berupa teks
-  grade       Int? // Nilai
-  feedback    String? // Feedback dari instruktur
-
+  id           String     @id @default(cuid())
+  submittedAt  DateTime   @default(now())
+  files        Json?
+  textContent  String?
+  grade        Int?
+  feedback     String?
   assignmentId String
   studentId    String
   assignment   Assignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
-  student      User       @relation(fields: [studentId], references: [id], onDelete: Cascade) // Relasi ke User (siswa)
+  student      User       @relation(fields: [studentId], references: [id], onDelete: Cascade)
 
-  @@unique([assignmentId, studentId]) // Satu siswa hanya bisa submit sekali per tugas
+  @@unique([assignmentId, studentId])
 }
 
 model Post {
-  id        String   @id @default(cuid())
-  title     String? // Judul post forum (opsional)
+  id        String    @id @default(cuid())
+  title     String?
   content   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  courseId String
-  authorId String
-  course   Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  author   User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  comments Comment[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  courseId  String
+  authorId  String
+  comments  Comment[]
+  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  course    Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
 }
 
 model Comment {
@@ -131,29 +114,26 @@ model Comment {
   content   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  postId   String
-  authorId String
-  post     Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
-  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  postId    String
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
 }
 
-// Model bawaan NextAuth.js
 model Account {
   id                String  @id @default(cuid())
   userId            String
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? // @db.Text
-  access_token      String? // @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? // @db.Text
+  id_token          String?
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -172,4 +152,12 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+enum UserRole {
+  VISITOR
+  TKJ1
+  TKJ2
+  TKJ3
+  INSTRUCTOR
 }

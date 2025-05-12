@@ -151,11 +151,11 @@ exports.Prisma.MaterialScalarFieldEnum = {
   title: 'title',
   description: 'description',
   files: 'files',
-  targetKelas: 'targetKelas',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   courseId: 'courseId',
-  authorId: 'authorId'
+  authorId: 'authorId',
+  targetKelas: 'targetKelas'
 };
 
 exports.Prisma.AssignmentScalarFieldEnum = {
@@ -165,11 +165,11 @@ exports.Prisma.AssignmentScalarFieldEnum = {
   dueDate: 'dueDate',
   points: 'points',
   files: 'files',
-  targetKelas: 'targetKelas',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   courseId: 'courseId',
-  authorId: 'authorId'
+  authorId: 'authorId',
+  targetKelas: 'targetKelas'
 };
 
 exports.Prisma.SubmissionScalarFieldEnum = {
